@@ -20,7 +20,7 @@ class SeoServiceProvider extends PackageServiceProvider
      *
      * @var string
      */
-    protected $package      = 'seo';
+    protected $package = 'seo';
 
     /* ------------------------------------------------------------------------------------------------
      |  Getters & Setters
@@ -47,7 +47,6 @@ class SeoServiceProvider extends PackageServiceProvider
     {
         $this->registerConfig();
         $this->app->register(CoreServiceProvider::class);
-
         $this->registerHelpers();
     }
 
@@ -56,7 +55,7 @@ class SeoServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
-        $this->registerPublishes();
+        $this->publishAll();
     }
 
     /**
@@ -80,35 +79,11 @@ class SeoServiceProvider extends PackageServiceProvider
      */
     private function registerHelpers()
     {
-        $this->singleton('arcanesoft.seo.spammers', function () {
-            return new Helpers\Spammers(
-                $this->config()->get('arcanesoft.seo.spammers')
-            );
+        $this->singleton('arcanesoft.seo.spammers', function ($app) {
+            /** @var  \Illuminate\Contracts\Config\Repository  $config */
+            $config = $app['config'];
+
+            return new Helpers\Spammers($config->get('arcanesoft.seo.spammers'));
         });
-    }
-
-    /**
-     * Register publishes.
-     */
-    private function registerPublishes()
-    {
-        // Config
-        $this->publishes([
-            $this->getConfigFile() => config_path("{$this->vendor}/{$this->package}.php"),
-        ], 'config');
-
-        // Views
-        $viewsPath = $this->getBasePath() . '/resources/views';
-        $this->loadViewsFrom($viewsPath, 'seo');
-        $this->publishes([
-            $viewsPath => base_path('resources/views/vendor/seo'),
-        ], 'views');
-
-        // Translations
-        $translationsPath = $this->getBasePath() . '/resources/lang';
-        $this->loadTranslationsFrom($translationsPath, 'seo');
-        $this->publishes([
-            $translationsPath => base_path('resources/lang/vendor/seo'),
-        ], 'lang');
     }
 }
