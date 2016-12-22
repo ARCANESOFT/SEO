@@ -4,7 +4,7 @@ use Arcanesoft\Core\Bases\PackageServiceProvider;
 use Arcanesoft\Core\CoreServiceProvider;
 
 /**
- * Class     AuthServiceProvider
+ * Class     SeoServiceProvider
  *
  * @package  Arcanesoft\Auth
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
@@ -46,7 +46,7 @@ class SeoServiceProvider extends PackageServiceProvider
     public function register()
     {
         $this->registerConfig();
-        $this->app->register(CoreServiceProvider::class);
+        $this->registerProvider(CoreServiceProvider::class);
         $this->registerHelpers();
     }
 
@@ -55,6 +55,10 @@ class SeoServiceProvider extends PackageServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
+        $this->registerProvider(Providers\RouteServiceProvider::class);
+
         $this->publishAll();
     }
 
