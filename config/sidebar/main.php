@@ -19,5 +19,25 @@ return [
 //                Policies\DashboardPolicy::PERMISSION_STATS
             ],
         ],
+        [
+            'title'       => 'Metas',
+            'name'        => 'seo-metas',
+            'route'       => 'admin::seo.metas.index',
+            'icon'        => 'fa fa-fw fa-tags',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+//                Policies\DashboardPolicy::PERMISSION_STATS
+            ],
+        ],
+        [
+            'title'       => 'Spammers',
+            'name'        => 'seo-spammers',
+            'route'       => 'admin::seo.spammers.index',
+            'icon'        => 'fa fa-fw fa-ban',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+//                Policies\DashboardPolicy::PERMISSION_STATS
+            ],
+        ],
     ],
 ];

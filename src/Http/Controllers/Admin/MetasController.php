@@ -1,25 +1,27 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
+use Arcanedev\LaravelSeo\Models\Seo;
 
 /**
- * Class     DashboardController
+ * Class     MetasController
  *
  * @package  Arcanesoft\Seo\Http\Controllers\Admin
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class DashboardController extends Controller
+class MetasController extends Controller
 {
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
     /**
-     * DashboardController constructor.
+     * MetasController constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->setCurrentPage('seo-dashboard');
+        $this->setCurrentPage('seo-metas');
+        $this->addBreadcrumbRoute('Metas', 'admin::seo.metas.index');
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -28,8 +30,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $this->setTitle('SEO - Statistics');
+        $this->setTitle($title = 'List of Metas');
+        $this->addBreadcrumb($title);
 
-        return $this->view('admin.dashboard');
+        $metas = Seo::all();
+
+        return $this->view('admin.metas.index', compact('metas'));
     }
 }

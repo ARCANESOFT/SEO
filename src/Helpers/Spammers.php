@@ -1,6 +1,7 @@
 <?php namespace Arcanesoft\Seo\Helpers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 /**
  * Class     Spammers
@@ -32,7 +33,7 @@ class Spammers
      */
     public function __construct(array $configs)
     {
-        $this->loadReferrals($configs);
+        $this->load($configs);
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -101,20 +102,22 @@ class Spammers
      *
      * @param  array  $configs
      */
-    private function loadReferrals(array $configs)
+    public function load(array $configs)
     {
         $referrals = [];
 
-        switch (array_get($configs, 'driver', 'array')) {
+        switch (Arr::get($configs, 'driver', 'array')) {
             case 'database':
                 $referrals = [];
                 break;
 
             case 'array':
-                $referrals = array_get($configs, 'sources.array', []);
+                $referrals = Arr::get($configs, 'sources.array', []);
                 break;
         }
 
         $this->setReferrals($referrals);
+
+        return $this;
     }
 }

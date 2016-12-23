@@ -16,13 +16,15 @@
     "type":    "library",
     "license": "MIT",
     "require": {
-        "php":                   ">=5.6.4",
-        "arcanesoft/core":       "~1.4",
-        "arcanedev/laravel-seo": "~0.1"
+        "php":                    ">=5.6.4",
+        "arcanesoft/core":        "~1.4",
+        "arcanedev/laravel-seo":  "~0.1",
+        "arcanedev/spam-blocker": "~1.0"
     },
     "require-dev": {
         "phpunit/phpcov":  "~3.0",
-        "phpunit/phpunit": "~5.0"
+        "phpunit/phpunit": "~5.0",
+        "orchestra/testbench": "~3.3.0"
     },
     "autoload": {
         "psr-4": {

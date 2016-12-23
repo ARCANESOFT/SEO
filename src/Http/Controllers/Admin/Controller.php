@@ -39,7 +39,7 @@ abstract class Controller extends BaseController
     {
         parent::__construct();
 
-        $this->addBreadcrumbRoute('Seo', 'admin::seo.stats.index');
+        $this->addBreadcrumbRoute('SEO', 'admin::seo.stats.index');
     }
 }
 

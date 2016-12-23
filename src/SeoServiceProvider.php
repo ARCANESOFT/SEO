@@ -46,6 +46,7 @@ class SeoServiceProvider extends PackageServiceProvider
     public function register()
     {
         $this->registerConfig();
+        $this->registerSidebarItems();
         $this->registerProvider(CoreServiceProvider::class);
         $this->registerHelpers();
     }
@@ -59,7 +60,11 @@ class SeoServiceProvider extends PackageServiceProvider
 
         $this->registerProvider(Providers\RouteServiceProvider::class);
 
-        $this->publishAll();
+        // Publishes
+        $this->publishConfig();
+        $this->publishViews();
+        $this->publishTranslations();
+        $this->publishSidebarItems();
     }
 
     /**
