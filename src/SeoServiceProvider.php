@@ -6,7 +6,7 @@ use Arcanesoft\Core\CoreServiceProvider;
 /**
  * Class     SeoServiceProvider
  *
- * @package  Arcanesoft\Auth
+ * @package  Arcanesoft\Seo
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SeoServiceProvider extends PackageServiceProvider
@@ -47,8 +47,10 @@ class SeoServiceProvider extends PackageServiceProvider
     {
         $this->registerConfig();
         $this->registerSidebarItems();
-        $this->registerProvider(CoreServiceProvider::class);
-        $this->registerHelpers();
+        $this->registerProviders([
+            CoreServiceProvider::class,
+            Providers\PackagesServiceProvider::class,
+        ]);
     }
 
     /**
@@ -83,16 +85,4 @@ class SeoServiceProvider extends PackageServiceProvider
      |  Other Functions
      | ------------------------------------------------------------------------------------------------
      */
-    /**
-     * Register the helpers.
-     */
-    private function registerHelpers()
-    {
-        $this->singleton('arcanesoft.seo.spammers', function ($app) {
-            /** @var  \Illuminate\Contracts\Config\Repository  $config */
-            $config = $app['config'];
-
-            return new Helpers\Spammers($config->get('arcanesoft.seo.spammers'));
-        });
-    }
 }
