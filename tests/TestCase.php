@@ -49,6 +49,11 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set(
+            'spam-blocker.source',
+            realpath(__DIR__ . '/../vendor/piwik/referrer-spam-blacklist/spammers.txt')
+        );
+
         $this->setUpRoutes($app);
     }
 
