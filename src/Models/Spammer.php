@@ -1,7 +1,5 @@
 <?php namespace Arcanesoft\Seo\Models;
 
-use Arcanedev\Support\Bases\Model;
-
 /**
  * Class     Spammer
  *

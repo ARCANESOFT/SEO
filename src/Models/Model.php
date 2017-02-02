@@ -1,4 +1,4 @@
-<?php namespace Arcanesoft\Seo\Bases;
+<?php namespace Arcanesoft\Seo\Models;
 
 use Arcanedev\Support\Bases\Model as BaseModel;
 
