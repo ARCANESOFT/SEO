@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Seo\Http\Routes\Admin;
 
-use Arcanedev\Support\Bases\RouteRegister;
-use Illuminate\Contracts\Routing\Registrar;
+use Arcanedev\Support\Routing\RouteRegistrar;
 
 /**
  * Class     SeoRoutes
@@ -9,7 +8,7 @@ use Illuminate\Contracts\Routing\Registrar;
  * @package  Arcanesoft\Seo\Http\Routes\Admin
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class SeoRoutes extends RouteRegister
+class SeoRoutes extends RouteRegistrar
 {
     /* ------------------------------------------------------------------------------------------------
      |  Main Functions
@@ -17,21 +16,22 @@ class SeoRoutes extends RouteRegister
      */
     /**
      * Map routes.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar $router
      */
-    public function map(Registrar $router)
+    public function map()
     {
-        $this->group(['prefix' => 'stats', 'as' => 'stats.'], function () {
-            $this->get('/', 'DashboardController@index')->name('index'); // admin::seo.stats.index
+        $this->prefix('stats')->name('stats.')->group(function () {
+            $this->get('/', 'DashboardController@index')
+                 ->name('index'); // admin::seo.stats.index
         });
 
-        $this->group(['prefix' => 'metas', 'as' => 'metas.'], function () {
-            $this->get('/', 'MetasController@index')->name('index'); // admin::seo.metas.index
+        $this->prefix('metas')->name('metas.')->group(function () {
+            $this->get('/', 'MetasController@index')
+                 ->name('index'); // admin::seo.metas.index
         });
 
-        $this->group(['prefix' => 'spammers', 'as' => 'spammers.'], function () {
-            $this->get('/', 'SpammersController@index')->name('index'); // admin::seo.spammers.index
+        $this->prefix('spammers')->name('spammers.')->group(function () {
+            $this->get('/', 'SpammersController@index')
+                 ->name('index'); // admin::seo.spammers.index
         });
     }
 }

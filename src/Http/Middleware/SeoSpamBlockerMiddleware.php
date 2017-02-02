@@ -23,6 +23,11 @@ class SeoSpamBlockerMiddleware
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+    /**
+     * SeoSpamBlockerMiddleware constructor.
+     *
+     * @param  \Arcanedev\SpamBlocker\Contracts\SpamBlocker  $blocker
+     */
     public function __construct(SpamBlocker $blocker)
     {
         $this->blocker = $blocker;
@@ -42,9 +47,8 @@ class SeoSpamBlockerMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->blocker->isBlocked($request->headers->get('referer'))) {
-            return response('Unauthorized.', 401);
-        }
+        if ($this->blocker->isBlocked($request->headers->get('referer')))
+            return abort(401, 'Unauthorized.');
 
         return $next($request);
     }
