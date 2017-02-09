@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Seo;
 
 use Arcanesoft\Core\Bases\PackageServiceProvider;
-use Arcanesoft\Core\CoreServiceProvider;
 
 /**
  * Class     SeoServiceProvider
@@ -45,12 +44,11 @@ class SeoServiceProvider extends PackageServiceProvider
      */
     public function register()
     {
+        parent::register();
+
         $this->registerConfig();
         $this->registerSidebarItems();
-        $this->registerProviders([
-            CoreServiceProvider::class,
-            Providers\PackagesServiceProvider::class,
-        ]);
+        $this->registerProvider(Providers\PackagesServiceProvider::class);
     }
 
     /**

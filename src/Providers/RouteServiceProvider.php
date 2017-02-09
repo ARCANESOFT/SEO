@@ -2,7 +2,6 @@
 
 use Arcanesoft\Core\Bases\RouteServiceProvider as ServiceProvider;
 use Arcanesoft\Seo\Http\Routes;
-use Illuminate\Contracts\Routing\Registrar as Router;
 
 /**
  * Class     RouteServiceProvider
@@ -18,12 +17,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     /**
      * Define the routes for the application.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    public function map(Router $router)
+    public function map()
     {
-        $this->mapAdminRoutes($router);
+        $this->mapAdminRoutes();
     }
 
     /* ------------------------------------------------------------------------------------------------
@@ -32,10 +29,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     /**
      * Map the admin routes.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
      */
-    private function mapAdminRoutes(Router $router)
+    private function mapAdminRoutes()
     {
         $attributes = $this->getAdminAttributes(
             'seo.',
@@ -43,8 +38,8 @@ class RouteServiceProvider extends ServiceProvider
             $this->config()->get('arcanesoft.seo.route.prefix', 'seo')
         );
 
-        $router->group($attributes, function ($router) {
-            Routes\Admin\SeoRoutes::register($router);
+        $this->group($attributes, function () {
+            Routes\Admin\SeoRoutes::register();
         });
     }
 }
