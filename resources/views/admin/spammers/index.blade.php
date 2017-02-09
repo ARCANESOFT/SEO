@@ -6,6 +6,14 @@
     <div class="box">
         <div class="box-header with-border">
             <div class="box-title">Spammers</div>
+            <div class="box-tools">
+                <span class="label label-info">Total : {{ $spammers->total() }}</span>
+                @if ($spammers->hasPages())
+                    <span class="label label-info">
+                        {{ trans('foundation::pagination.pages', ['current' => $spammers->currentPage(), 'last' => $spammers->lastPage()]) }}
+                    </span>
+                @endif
+            </div>
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
@@ -25,9 +33,9 @@
                                 {{ utf8_decode($spammer->host()) }}
                             </td>
                             <td class="text-center">
-                                <span class="label label-{{ $spammer->isBlocked() ? 'success' : 'default' }}">
-                                    {{ $spammer->isBlocked() ? 'Yes' : 'No' }}
-                                </span>
+                            <span class="label label-{{ $spammer->isBlocked() ? 'success' : 'default' }}">
+                                {{ $spammer->isBlocked() ? 'Yes' : 'No' }}
+                            </span>
                             </td>
                             <td class="text-right">
                                 @if ($spammer->isBlocked())
@@ -53,6 +61,11 @@
                 </table>
             </div>
         </div>
+        @if ($spammers->hasPages())
+            <div class="box-footer text-center clearfix">
+                {{ $spammers->render() }}
+            </div>
+        @endif
     </div>
 @endsection
 

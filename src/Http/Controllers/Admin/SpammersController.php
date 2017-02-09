@@ -1,6 +1,9 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
 use Arcanedev\SpamBlocker\Contracts\SpamBlocker;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * Class     SpammersController
@@ -21,12 +24,21 @@ class SpammersController extends Controller
      */
     protected $blocker;
 
+    /**
+     * Number of items per page for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 50;
+
     /* ------------------------------------------------------------------------------------------------
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
     /**
      * MetasController constructor.
+     *
+     * @param  \Arcanedev\SpamBlocker\Contracts\SpamBlocker  $blocker
      */
     public function __construct(SpamBlocker $blocker)
     {
@@ -42,13 +54,47 @@ class SpammersController extends Controller
      |  Main Functions
      | ------------------------------------------------------------------------------------------------
      */
-    public function index()
+    /**
+     * List all the spammers.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
     {
         $this->setTitle($title = 'List of Spammers');
         $this->addBreadcrumb($title);
 
-        $spammers = $this->blocker->all();
+        $spammers = $this->paginate($this->blocker->all(), $request, $this->perPage);
 
         return $this->view('admin.spammers.index', compact('spammers'));
+    }
+
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
+     */
+    /**
+     * Paginate the collection.
+     *
+     * @param  \Illuminate\Support\Collection  $data
+     * @param  \Illuminate\Http\Request        $request
+     * @param  int                             $perPage
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    protected function paginate(Collection $data, Request $request, $perPage)
+    {
+        $page = $request->get('page', 1);
+        $path = $request->url();
+
+        return new LengthAwarePaginator(
+            $data->forPage($page, $perPage),
+            $data->count(),
+            $perPage,
+            $page,
+            compact('path')
+        );
     }
 }
