@@ -20,12 +20,11 @@
         "arcanedev/laravel-seo":  "~0.2",
         "arcanedev/spam-blocker": "~1.3",
         "arcanesoft/auth":        "~2.0",
-        "arcanesoft/core":        "~1.5"
+        "arcanesoft/core":        "~2.0"
     },
     "require-dev": {
         "phpunit/phpcov":  "~3.0",
-        "phpunit/phpunit": "~5.0",
-        "orchestra/testbench-browser-kit": "~3.4.0"
+        "phpunit/phpunit": "~5.0"
     },
     "autoload": {
         "psr-4": {
