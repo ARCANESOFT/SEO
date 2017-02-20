@@ -11,35 +11,40 @@ use Arcanesoft\Seo\Http\Routes;
  */
 class RouteServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Properties
+     | -----------------------------------------------------------------
+     */
+    /**
+     * The admin controller namespace for the application.
+     *
+     * @var string
+     */
+    protected $adminNamespace = 'Arcanesoft\\Seo\\Http\\Controllers\\Admin';
+
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
     /**
      * Define the routes for the application.
      */
     public function map()
     {
-        $this->mapAdminRoutes();
+        $this->adminGroup(function () {
+            $this->mapAdminRoutes();
+        });
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Routes
-     | ------------------------------------------------------------------------------------------------
-     */
     /**
      * Map the admin routes.
      */
     private function mapAdminRoutes()
     {
-        $attributes = $this->getAdminAttributes(
-            'seo.',
-            'Arcanesoft\\Seo\\Http\\Controllers\\Admin',
-            $this->config()->get('arcanesoft.seo.route.prefix', 'seo')
-        );
-
-        $this->group($attributes, function () {
-            Routes\Admin\SeoRoutes::register();
-        });
+        $this->name('seo.')
+             ->prefix($this->config()->get('arcanesoft.seo.route.prefix', 'seo'))
+             ->group(function () {
+                 Routes\Admin\SeoRoutes::register();
+             });
     }
 }
