@@ -44,7 +44,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->name('seo.')
              ->prefix($this->config()->get('arcanesoft.seo.route.prefix', 'seo'))
              ->group(function () {
-                 Routes\Admin\SeoRoutes::register();
+                 Routes\Admin\DashboardRoutes::register();
+                 Routes\Admin\MetasRoutes::register();
+                 Routes\Admin\RedirectsRoutes::register();
+                 Routes\Admin\SpammersRoutes::register();
              });
     }
 }

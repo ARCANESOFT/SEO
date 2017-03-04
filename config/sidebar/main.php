@@ -26,7 +26,17 @@ return [
             'icon'        => 'fa fa-fw fa-tags',
             'roles'       => [Role::ADMINISTRATOR],
             'permissions' => [
-//                Policies\DashboardPolicy::PERMISSION_STATS
+                //
+            ],
+        ],
+        [
+            'title'       => 'Redirections',
+            'name'        => 'seo-redirects',
+            'route'       => 'admin::seo.redirects.index',
+            'icon'        => 'fa fa-fw fa-random',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+                //
             ],
         ],
         [
@@ -36,7 +46,7 @@ return [
             'icon'        => 'fa fa-fw fa-ban',
             'roles'       => [Role::ADMINISTRATOR],
             'permissions' => [
-//                Policies\DashboardPolicy::PERMISSION_STATS
+                //
             ],
         ],
     ],
