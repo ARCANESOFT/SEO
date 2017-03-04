@@ -1,14 +1,14 @@
 <?php namespace Arcanesoft\Seo\Models;
 
-use Arcanedev\Support\Bases\Model as BaseModel;
+use Arcanedev\Support\Bases\Model;
 
 /**
- * Class     Model
+ * Class     AbstractModel
  *
  * @package  Arcanesoft\Seo\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class Model extends BaseModel
+abstract class AbstractModel extends Model
 {
     //
 }

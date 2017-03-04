@@ -6,7 +6,7 @@
  * @package  Arcanesoft\Seo\Models
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Spammer extends Model
+class Spammer extends AbstractModel
 {
     //
 }

@@ -1,5 +1,6 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
-use Arcanedev\LaravelSeo\Models\Seo;
+
+use Arcanedev\LaravelSeo\Models\Meta;
 
 /**
  * Class     MetasController
@@ -9,9 +10,9 @@ use Arcanedev\LaravelSeo\Models\Seo;
  */
 class MetasController extends Controller
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Constructor
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
     /**
      * MetasController constructor.
@@ -24,16 +25,16 @@ class MetasController extends Controller
         $this->addBreadcrumbRoute('Metas', 'admin::seo.metas.index');
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
     public function index()
     {
         $this->setTitle($title = 'List of Metas');
         $this->addBreadcrumb($title);
 
-        $metas = Seo::all();
+        $metas = Meta::all();
 
         return $this->view('admin.metas.index', compact('metas'));
     }

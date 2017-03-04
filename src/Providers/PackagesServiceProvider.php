@@ -10,12 +10,20 @@ use Arcanedev\Support\ServiceProvider;
  */
 class PackagesServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+    /**
+     * Register the service provider.
      */
     public function register()
     {
-        $this->registerProvider(\Arcanedev\SpamBlocker\SpamBlockerServiceProvider::class);
+        parent::register();
+
+        $this->registerProviders([
+            \Arcanedev\LaravelSeo\LaravelSeoServiceProvider::class,
+            \Arcanedev\SpamBlocker\SpamBlockerServiceProvider::class,
+        ]);
     }
 }
