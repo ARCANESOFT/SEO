@@ -21,7 +21,7 @@ class SpammersRoutes extends RouteRegistrar
     {
         $this->prefix('spammers')->name('spammers.')->group(function () {
             $this->get('/', 'SpammersController@index')
-                ->name('index'); // admin::seo.spammers.index
+                 ->name('index'); // admin::seo.spammers.index
         });
     }
 }

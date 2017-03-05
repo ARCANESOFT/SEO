@@ -3,12 +3,12 @@
 use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
 
 /**
- * Class     CreateRedirectRequest
+ * Class     UpdateRedirectRequest
  *
  * @package  Arcanesoft\Seo\Http\Requests\Admin\Redirects
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class CreateRedirectRequest extends RedirectFormRequest
+class UpdateRedirectRequest extends RedirectFormRequest
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -31,8 +31,10 @@ class CreateRedirectRequest extends RedirectFormRequest
      */
     public function rules()
     {
+        $redirect = $this->route('seo_redirect');
+
         return [
-            'old_url' => ['required', $this->getOldUrlRule()],
+            'old_url' => ['required', $this->getOldUrlRule()->ignore($redirect->id)],
             'new_url' => ['required'],
             'status'  => ['required', 'integer', 'in:'.RedirectStatuses::keys()->implode(',')],
         ];

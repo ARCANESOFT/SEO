@@ -1,5 +1,8 @@
 <?php namespace Arcanesoft\Seo\Providers;
 
+use Arcanedev\LaravelApiHelper\ApiHelperServiceProvider;
+use Arcanedev\LaravelSeo\LaravelSeoServiceProvider;
+use Arcanedev\SpamBlocker\SpamBlockerServiceProvider;
 use Arcanedev\Support\ServiceProvider;
 
 /**
@@ -21,9 +24,36 @@ class PackagesServiceProvider extends ServiceProvider
     {
         parent::register();
 
-        $this->registerProviders([
-            \Arcanedev\LaravelSeo\LaravelSeoServiceProvider::class,
-            \Arcanedev\SpamBlocker\SpamBlockerServiceProvider::class,
-        ]);
+        $this->registerLaravelSeoPackage();
+        $this->registerSpamBlockerPackage();
+        $this->registerApiHelperPackage();
+    }
+
+    /* -----------------------------------------------------------------
+     |  Packages
+     | -----------------------------------------------------------------
+     */
+    /**
+     * Register Laravel Seo package.
+     */
+    private function registerLaravelSeoPackage()
+    {
+        $this->registerProvider(LaravelSeoServiceProvider::class);
+    }
+
+    /**
+     * Register Spam Blocker package.
+     */
+    private function registerSpamBlockerPackage()
+    {
+        $this->registerProvider(SpamBlockerServiceProvider::class);
+    }
+
+    /**
+     * Register API Helper package.
+     */
+    private function registerApiHelperPackage()
+    {
+        $this->registerProvider(ApiHelperServiceProvider::class);
     }
 }
