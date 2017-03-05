@@ -4,7 +4,6 @@ use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
 use Arcanedev\LaravelSeo\Models\Redirect;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\CreateRedirectRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\UpdateRedirectRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 /**

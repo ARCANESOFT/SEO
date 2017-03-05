@@ -49,5 +49,15 @@ return [
                 //
             ],
         ],
+        [
+            'title'       => 'Settings',
+            'name'        => 'seo-settings',
+            'route'       => 'admin::seo.settings.index',
+            'icon'        => 'fa fa-fw fa-cog',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+                //
+            ],
+        ],
     ],
 ];

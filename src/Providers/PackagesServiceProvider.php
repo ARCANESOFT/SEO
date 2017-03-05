@@ -2,6 +2,7 @@
 
 use Arcanedev\LaravelApiHelper\ApiHelperServiceProvider;
 use Arcanedev\LaravelSeo\LaravelSeoServiceProvider;
+use Arcanedev\LaravelSeo\Seo;
 use Arcanedev\SpamBlocker\SpamBlockerServiceProvider;
 use Arcanedev\Support\ServiceProvider;
 
@@ -39,6 +40,10 @@ class PackagesServiceProvider extends ServiceProvider
     private function registerLaravelSeoPackage()
     {
         $this->registerProvider(LaravelSeoServiceProvider::class);
+
+        $this->app->booting(function () {
+            Seo::setConfig('redirector.default', 'eloquent');
+        });
     }
 
     /**

@@ -48,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
                  Routes\Admin\MetasRoutes::register();
                  Routes\Admin\RedirectsRoutes::register();
                  Routes\Admin\SpammersRoutes::register();
+                 Routes\Admin\SettingsRoutes::register();
              });
     }
 }
