@@ -14,9 +14,9 @@
                         <tr>
                             <th>Enabled :</th>
                             <td class="text-right">
-                        <span class="label label-{{ $redirector['enabled'] ? 'success' : 'default' }}">
-                            {{ $redirector['enabled'] ? 'Yes' : 'No' }}
-                        </span>
+                                <span class="label label-{{ $redirector['enabled'] ? 'success' : 'default' }}">
+                                    {{ $redirector['enabled'] ? 'Yes' : 'No' }}
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -25,6 +25,22 @@
                                 <span class="label label-primary">{{ $redirector['default'] }}</span>
                             </td>
                         </tr>
+                        @if ($redirector['default'] == 'eloquent')
+                        <tr>
+                            <th>Cache key :</th>
+                            <td class="text-right">
+                                <span class="label label-inverse">{{ array_get($redirector, 'drivers.eloquent.options.cache.key') }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Cache Duration :</th>
+                            <td class="text-right">
+                            <span class="label label-inverse">
+                                {{ array_get($redirector, 'drivers.eloquent.options.cache.duration') }} Minutes
+                            </span>
+                            </td>
+                        </tr>
+                        @endif
                     </table>
                 </div>
             </div>

@@ -20,6 +20,26 @@ return [
             ],
         ],
         [
+            'title'       => 'Pages',
+            'name'        => 'seo-pages',
+            'route'       => 'admin::seo.pages.index',
+            'icon'        => 'fa fa-fw fa-files-o',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+                //
+            ],
+        ],
+        [
+            'title'       => 'Footers',
+            'name'        => 'seo-footers',
+            'route'       => 'admin::seo.footers.index',
+            'icon'        => 'fa fa-fw fa-th',
+            'roles'       => [Role::ADMINISTRATOR],
+            'permissions' => [
+                //
+            ],
+        ],
+        [
             'title'       => 'Metas',
             'name'        => 'seo-metas',
             'route'       => 'admin::seo.metas.index',

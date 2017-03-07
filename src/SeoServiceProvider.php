@@ -51,6 +51,8 @@ class SeoServiceProvider extends PackageServiceProvider
         $this->publishViews();
         $this->publishTranslations();
         $this->publishSidebarItems();
+
+        $this->loadMigrations();
     }
 
     /**

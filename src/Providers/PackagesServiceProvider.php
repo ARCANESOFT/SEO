@@ -42,6 +42,7 @@ class PackagesServiceProvider extends ServiceProvider
         $this->registerProvider(LaravelSeoServiceProvider::class);
 
         $this->app->booting(function () {
+            Seo::setConfig('database', config('arcanesoft.seo.database'));
             Seo::setConfig('redirector.default', 'eloquent');
         });
     }

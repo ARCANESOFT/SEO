@@ -1,12 +1,12 @@
-<?php namespace Arcanesoft\Seo\Http\Requests\Admin\Redirects;
+<?php namespace Arcanesoft\Seo\Http\Requests\Admin\Pages;
 
 /**
- * Class     UpdateRedirectRequest
+ * Class     UpdatePageRequest
  *
- * @package  Arcanesoft\Seo\Http\Requests\Admin\Redirects
+ * @package  Arcanesoft\Seo\Http\Requests\Admin\Pages
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UpdateRedirectRequest extends RedirectFormRequest
+class UpdatePageRequest extends PageFormRequest
 {
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -29,12 +29,10 @@ class UpdateRedirectRequest extends RedirectFormRequest
      */
     public function rules()
     {
-        $redirect = $this->route('seo_redirect');
-
         return [
-            'old_url' => ['required', $this->getOldUrlRule()->ignore($redirect->id)],
-            'new_url' => ['required'],
-            'status'  => $this->getStatusRule(),
+            'name'    => ['required'],
+            'locale'  => $this->getLocaleRule(),
+            'content' => ['required']
         ];
     }
 }

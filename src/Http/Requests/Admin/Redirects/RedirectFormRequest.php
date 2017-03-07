@@ -1,7 +1,8 @@
 <?php namespace Arcanesoft\Seo\Http\Requests\Admin\Redirects;
 
+use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
 use Arcanedev\LaravelSeo\Seo;
-use Arcanedev\Support\Bases\FormRequest;
+use Arcanesoft\Seo\Http\Requests\Admin\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
@@ -28,5 +29,15 @@ abstract class RedirectFormRequest extends FormRequest
         $table = Seo::getConfig('database.prefix').Seo::getConfig('redirects.table');
 
         return Rule::unique($table, $column);
+    }
+
+    /**
+     * Get `status` rule.
+     *
+     * @return array
+     */
+    protected function getStatusRule()
+    {
+        return ['required', 'integer', 'in:'.RedirectStatuses::keys()->implode(',')];
     }
 }

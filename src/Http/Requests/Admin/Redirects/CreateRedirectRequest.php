@@ -1,7 +1,5 @@
 <?php namespace Arcanesoft\Seo\Http\Requests\Admin\Redirects;
 
-use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
-
 /**
  * Class     CreateRedirectRequest
  *
@@ -34,7 +32,7 @@ class CreateRedirectRequest extends RedirectFormRequest
         return [
             'old_url' => ['required', $this->getOldUrlRule()],
             'new_url' => ['required'],
-            'status'  => ['required', 'integer', 'in:'.RedirectStatuses::keys()->implode(',')],
+            'status'  => $this->getStatusRule(),
         ];
     }
 }
