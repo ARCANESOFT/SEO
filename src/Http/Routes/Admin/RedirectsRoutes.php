@@ -1,7 +1,7 @@
 <?php namespace Arcanesoft\Seo\Http\Routes\Admin;
 
-use Arcanedev\LaravelSeo\Models\Redirect;
 use Arcanedev\Support\Routing\RouteRegistrar;
+use Arcanesoft\Seo\Models\Redirect;
 
 /**
  * Class     RedirectsRoutes

@@ -29,8 +29,17 @@ class UpdateFooterRequest extends FooterFormRequest
      */
     public function rules()
     {
+        $footer = $this->route('seo_footer');
+
         return [
-            //
+            'name'            => ['required'],
+            'localization'    => ['required'],
+            'uri'             => ['required', $this->getUniqueUriRule()->ignore($footer->id)],
+            'locale'          => $this->getLocaleRule(),
+            'page'            => $this->getPageRule(),
+            'seo_title'       => ['required'],
+            'seo_description' => ['required'],
+            'seo_keywords'    => ['required', 'array', 'min:1'],
         ];
     }
 }

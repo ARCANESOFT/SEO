@@ -5,15 +5,7 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <div class="box-title">Spammers</div>
-            <div class="box-tools">
-                <span class="label label-info">Total : {{ $spammers->total() }}</span>
-                @if ($spammers->hasPages())
-                    <span class="label label-info">
-                        {{ trans('foundation::pagination.pages', ['current' => $spammers->currentPage(), 'last' => $spammers->lastPage()]) }}
-                    </span>
-                @endif
-            </div>
+            @include('seo::admin._includes.pagination-labels', ['paginator' => $spammers])
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
@@ -61,11 +53,7 @@
                 </table>
             </div>
         </div>
-        @if ($spammers->hasPages())
-            <div class="box-footer text-center clearfix">
-                {{ $spammers->render() }}
-            </div>
-        @endif
+        @include('seo::admin._includes.pagination-navs', ['paginator' => $spammers])
     </div>
 @endsection
 

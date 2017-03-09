@@ -5,6 +5,7 @@ use Arcanedev\LaravelSeo\LaravelSeoServiceProvider;
 use Arcanedev\LaravelSeo\Seo;
 use Arcanedev\SpamBlocker\SpamBlockerServiceProvider;
 use Arcanedev\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class     PackagesServiceProvider
@@ -43,7 +44,11 @@ class PackagesServiceProvider extends ServiceProvider
 
         $this->app->booting(function () {
             Seo::setConfig('database', config('arcanesoft.seo.database'));
+            Seo::setConfig('metas', config('arcanesoft.seo.metas'));
+            Seo::setConfig('redirects', config('arcanesoft.seo.redirects'));
             Seo::setConfig('redirector.default', 'eloquent');
+
+            Relation::morphMap(config('arcanesoft.seo.morph-map'));
         });
     }
 

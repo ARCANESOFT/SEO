@@ -98,10 +98,12 @@ class FootersController extends Controller
 
     public function update(Footer $footer, UpdateFooterRequest $request)
     {
-        dd($request->all());
-        $footer->updateOne(
-            //
-        );
+        $inputs = $request->only([
+            'name', 'localization', 'uri', 'locale', 'page',
+            'seo_title', 'seo_description', 'seo_keywords',
+        ]);
+
+        $footer->updateOne($inputs);
 
         $message = 'The footer was updated successfully !';
         Log::info($message, $footer->toArray());

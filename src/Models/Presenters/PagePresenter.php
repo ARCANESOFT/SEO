@@ -1,6 +1,7 @@
 <?php namespace Arcanesoft\Seo\Models\Presenters;
 
 use Arcanesoft\Seo\Entities\Locales;
+use Arcanesoft\Seo\Helpers\TextReplacer;
 
 /**
  * Class     PagePresenter
@@ -36,15 +37,43 @@ trait PagePresenter
      */
     public function getContentPreviewAttribute()
     {
-        return empty($pattern = $this->getReplacerPattern())
-            ? $this->content
-            : preg_replace($pattern, '<span class="label label-inverse">[\1]</span>', $this->content);
+        return $this->getContentReplacer()->highlight($this->content);
     }
 
     /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
      */
+    /**
+     * Render the content.
+     *
+     * @param  array  $replacements
+     *
+     * @return string
+     */
+    public function renderContent(array $replacements)
+    {
+        return $this->getContentReplacer()->replace($this->content, array_merge([
+            'app_name' => config('app.name'),
+            'app_url'  => link_to(config('app.url'), config('app.name')),
+            'mobile'   => config('cms.company.mobile'),
+            'phone'    => config('cms.company.phone'),
+            'email'    => html()->mailto(config('cms.company.email')),
+        ], $replacements));
+    }
+
+    /**
+     * Get the content replacer.
+     *
+     * @return \Arcanesoft\Seo\Helpers\TextReplacer
+     */
+    public static function getContentReplacer()
+    {
+        return TextReplacer::make(
+            config('arcanesoft.seo.pages.replacer', [])
+        );
+    }
+
     /**
      * Get the content replacer pattern.
      *

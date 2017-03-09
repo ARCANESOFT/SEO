@@ -110,11 +110,11 @@ class Page extends AbstractModel
      | -----------------------------------------------------------------
      */
     /**
-     * Check if the page is deleteable.
+     * Check if the page is deletable.
      *
      * @return bool
      */
-    public function isDeleteable()
+    public function isDeletable()
     {
         return $this->footers->isEmpty();
     }
@@ -123,23 +123,6 @@ class Page extends AbstractModel
      |  Other Methods
      | -----------------------------------------------------------------
      */
-    public function renderContent(array $replacer)
-    {
-        $content      = $this->content;
-        $replacements = array_merge([
-            'app_name' => config('app.name'),
-            'app_url'  => link_to(config('app.url'), config('app.name')),
-            'mobile'   => config('cms.company.mobile'),
-            'phone'    => config('cms.company.phone'),
-            'email'    => html()->mailto(config('cms.company.email')),
-        ], $replacer);
-
-        return strtr($this->content, array_combine(
-            array_map(function ($from) { return "[{$from}]"; }, array_keys($replacements)),
-            array_values($replacements)
-        ));
-    }
-
     /**
      * Get the select input data.
      *
@@ -149,7 +132,26 @@ class Page extends AbstractModel
     {
         $pages = Page::all(); // TODO: Cache the data ??
 
-        return $pages->pluck('name', 'id')
-            ->prepend('-- Select a page --', 0);
+        return $pages->pluck('name', 'id')->prepend('-- Select a page --', 0);
+    }
+
+    /**
+     * Get the show url (Seoable).
+     *
+     * @return string
+     */
+    public function getShowUrl()
+    {
+        return route('admin::seo.footers.show', $this);
+    }
+
+    /**
+     * Get the edit url (Seoable).
+     *
+     * @return string
+     */
+    public function getEditUrl()
+    {
+        return route('admin::seo.footers.edit', $this);
     }
 }

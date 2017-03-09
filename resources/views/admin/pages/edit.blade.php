@@ -39,6 +39,8 @@
                             <span class="text-red">{!! $errors->first('content') !!}</span>
                         @endif
                     </div>
+
+                    <code>Shortcodes: {{ \Arcanesoft\Seo\Models\Page::getContentReplacer()->getShortcodesKeys()->implode(', ') }}</code>
                 </div>
             </div>
         </div>
@@ -58,4 +60,12 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(function () {
+            new SimpleMDE({
+                element: $('textarea#content')[0],
+                spellChecker: false
+            });
+        });
+    </script>
 @endsection

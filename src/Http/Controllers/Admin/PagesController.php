@@ -103,6 +103,12 @@ class PagesController extends Controller
 
     public function delete(Page $page)
     {
-        //
+        $page->delete();
+
+        $message = 'The page was deleted successfully !';
+        Log::info($message, $page->toArray());
+        $this->notifySuccess($message, 'Page deleted !');
+
+        return json_response()->success($message);
     }
 }

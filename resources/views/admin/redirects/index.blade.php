@@ -5,7 +5,7 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <h2 class="box-title">Redirections</h2>
+            @include('seo::admin._includes.pagination-labels', ['paginator' => $redirects])
             <div class="box-tools">
                 <a href="{{ route('admin::seo.redirects.create') }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Add">
                     <i class="fa fa-plus"></i>
@@ -62,6 +62,7 @@
                 </table>
             </div>
         </div>
+        @include('seo::admin._includes.pagination-navs', ['paginator' => $redirects])
     </div>
 @endsection
 

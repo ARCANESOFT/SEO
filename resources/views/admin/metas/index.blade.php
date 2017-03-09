@@ -5,7 +5,7 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <div class="box-title">Metas</div>
+            @include('seo::admin._includes.pagination-labels', ['paginator' => $metas])
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
@@ -22,10 +22,20 @@
                         @if ($metas->count())
                             @foreach ($metas as $meta)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $meta->title }}</td>
+                                <td>{{ $meta->description }}</td>
+                                <td>
+                                    @if ($meta->keywords->isEmpty())
+                                        <span class="label label-default">null</span>
+                                    @else
+                                        {{ $meta->keywords_string }}
+                                    @endif
+                                </td>
+                                <td class="text-right">
+                                    <a href="{{ route('admin::seo.metas.show', [$meta]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
+                                        <i class="fa fa-fw fa-search"></i>
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                         @else
@@ -39,6 +49,7 @@
                 </table>
             </div>
         </div>
+        @include('seo::admin._includes.pagination-navs', ['paginator' => $metas])
     </div>
 @endsection
 

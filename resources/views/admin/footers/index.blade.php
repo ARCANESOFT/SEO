@@ -5,7 +5,7 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            <h2 class="box-title">Footers</h2>
+            @include('seo::admin._includes.pagination-labels', ['paginator' => $footers])
             <div class="box-tools">
                 <a href="{{ route('admin::seo.footers.create') }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Add">
                     <i class="fa fa-fw fa-plus"></i>
@@ -55,7 +55,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4" class="text-center">
+                                <td colspan="5" class="text-center">
                                     <span class="label label-default">The footers list is empty!</span>
                                 </td>
                             </tr>
@@ -64,6 +64,7 @@
                 </table>
             </div>
         </div>
+        @include('seo::admin._includes.pagination-navs', ['paginator' => $footers])
     </div>
 @endsection
 
@@ -124,7 +125,7 @@
                     success: function (data, textStatus, xhr) {
                         if (data.status == 'success') {
                             $deleteFooterModal.modal('hide');
-                            location.replace("{{ route('admin::seo.footers.index') }}");
+                            location.reload();
                         }
                         else {
                             alert('AJAX ERROR! Check the console!')

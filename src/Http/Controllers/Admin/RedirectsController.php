@@ -1,9 +1,9 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
 use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
-use Arcanedev\LaravelSeo\Models\Redirect;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\CreateRedirectRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\UpdateRedirectRequest;
+use Arcanesoft\Seo\Models\Redirect;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -40,7 +40,7 @@ class RedirectsController extends Controller
         $this->setTitle($title = 'List of Redirections');
         $this->addBreadcrumb($title);
 
-        $redirects = Redirect::all();
+        $redirects = Redirect::paginate(50);
 
         return $this->view('admin.redirects.index', compact('redirects'));
     }

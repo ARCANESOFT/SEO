@@ -1,6 +1,6 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
-use Arcanedev\LaravelSeo\Models\Meta;
+use Arcanesoft\Seo\Models\Meta;
 
 /**
  * Class     MetasController
@@ -34,8 +34,18 @@ class MetasController extends Controller
         $this->setTitle($title = 'List of Metas');
         $this->addBreadcrumb($title);
 
-        $metas = Meta::all();
+        $metas = Meta::paginate(50);
 
         return $this->view('admin.metas.index', compact('metas'));
+    }
+
+    public function show(Meta $meta)
+    {
+        $this->setTitle($title = 'Meta details');
+        $this->addBreadcrumb($title);
+
+        $meta->load(['seoable']);
+
+        return $this->view('admin.metas.show', compact('meta'));
     }
 }

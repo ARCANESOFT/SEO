@@ -123,6 +123,34 @@ class Footer extends AbstractModel
 
     public function updateOne(array $attributes)
     {
-        //
+        $result = $this->update([
+            'name'         => $attributes['name'],
+            'localization' => $attributes['localization'],
+            'uri'          => $attributes['uri'],
+            'locale'       => $attributes['locale'],
+            'page_id'      => $attributes['page'],
+        ]);
+
+        $this->updateSeo([
+            'title'       => $attributes['seo_title'],
+            'description' => $attributes['seo_description'],
+            'keywords'    => $attributes['seo_keywords'],
+        ]);
+
+        return $result;
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+    public function getShowUrl()
+    {
+        return route('admin::seo.footers.show', $this);
+    }
+
+    public function getEditUrl()
+    {
+        return route('admin::seo.footers.edit', $this);
     }
 }

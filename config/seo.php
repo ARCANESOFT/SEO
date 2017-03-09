@@ -19,6 +19,24 @@ return [
         'prefix'     => 'seo_',
     ],
 
+    'morph-map' => [
+        'seo_footer' => \Arcanesoft\Seo\Models\Footer::class,
+    ],
+
+    /* -----------------------------------------------------------------
+     |  Tables & Models
+     | -----------------------------------------------------------------
+     */
+    'metas'     => [
+        'table' => 'metas',
+        'model' => \Arcanesoft\Seo\Models\Meta::class,
+    ],
+
+    'redirects' => [
+        'table' => 'redirects',
+        'model' => \Arcanesoft\Seo\Models\Redirect::class,
+    ],
+
     /* -----------------------------------------------------------------
      |  Locales
      | -----------------------------------------------------------------
@@ -40,4 +58,5 @@ return [
             'email',
         ],
     ],
+
 ];

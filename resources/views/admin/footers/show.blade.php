@@ -31,6 +31,10 @@
                                 <td><span class="label label-inverse">{{ $footer->locale_name }}</span></td>
                             </tr>
                             <tr>
+                                <th>Page :</th>
+                                <td>{{ $footer->page->name }}</td>
+                            </tr>
+                            <tr>
                                 <th>Created at :</th>
                                 <td><small>{{ $footer->created_at }}</small></td>
                             </tr>
@@ -52,12 +56,44 @@
             </div>
         </div>
         <div class="col-md-8">
+            {{-- CONTENT --}}
             <div class="box">
                 <div class="box-header with-border">
                     <h2 class="box-title">Content</h2>
                 </div>
                 <div class="box-body">
                     {!! $footer->content !!}
+                </div>
+            </div>
+
+            {{-- SEO --}}
+            <div class="box">
+                <div class="box-header">
+                    <h2 class="box-title">SEO</h2>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="table-responsive">
+                        <table class="table table-condensed no-margin">
+                            <tr>
+                                <th>Title</th>
+                                <td>{{ $footer->seo->title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ $footer->seo->description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Keywords</th>
+                                <td>
+                                    @if ($footer->seo->keywords->isEmpty())
+                                        <span class="label label-default">null</span>
+                                    @else
+                                        {{ $footer->seo->keywords_string }}
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

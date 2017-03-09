@@ -85,10 +85,11 @@
                     </div>
                 </div>
 
+                @php($keywords = $footer->seo->keywords->flip()->transform(function ($v, $k) { return $k; }))
                 <div class="col-md-12">
                     <div class="form-group {{ $errors->first('seo_keywords', 'has-error') }}">
-                        {{ Form::label('seo_keywords', 'SEO Keywords :') }}
-                        {{ Form::text('seo_keywords', old('seo_keywords', $footer->seo->keywords), ['class' => 'form-control']) }}
+                        {{ Form::label('seo_keywords[]', 'SEO Keywords :') }}
+                        {{ Form::select('seo_keywords[]', $keywords, old('seo_keywords[]', $keywords->keys()), ['class' => 'form-control', 'multiple']) }}
                         @if ($errors->has('seo_keywords'))
                             <span class="text-red">{!! $errors->first('seo_keywords') !!}</span>
                         @endif
@@ -112,4 +113,11 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(function () {
+            $('select[name="seo_keywords[]"]').select2({
+                tags: true
+            });
+        });
+    </script>
 @endsection
