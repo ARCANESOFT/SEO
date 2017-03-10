@@ -34,6 +34,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->adminGroup(function () {
             $this->mapAdminRoutes();
         });
+
+        $this->mapPublicRoutes();
     }
 
     /**
@@ -52,5 +54,13 @@ class RouteServiceProvider extends ServiceProvider
                  Routes\Admin\SpammersRoutes::register();
                  Routes\Admin\SettingsRoutes::register();
              });
+    }
+
+    /**
+     * Map the public routes.
+     */
+    private function mapPublicRoutes()
+    {
+        Routes\Front\FootersRoutes::register();
     }
 }

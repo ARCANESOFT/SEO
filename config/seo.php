@@ -59,4 +59,20 @@ return [
         ],
     ],
 
+    /* -----------------------------------------------------------------
+     |  Widgets
+     | -----------------------------------------------------------------
+     */
+    'widgets' => [
+        'footers' => [
+            'columns' => 2, // Supported: 1, 2, 4
+
+            'route'   => [
+                'as'         => 'public::seo.footers.',
+                'namespace'  => 'Arcanesoft\\Seo\\Http\\Controllers\\Front',
+                'middleware' => ['public'],
+            ],
+        ],
+    ],
+
 ];
