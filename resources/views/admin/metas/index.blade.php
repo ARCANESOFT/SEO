@@ -12,9 +12,9 @@
                 <table class="table table-condensed table-hover no-margin">
                     <thead>
                     <tr>
+                        <th>Entity</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Keywords</th>
                         <th class="text-right">Actions</th>
                     </tr>
                     </thead>
@@ -22,15 +22,11 @@
                         @if ($metas->count())
                             @foreach ($metas as $meta)
                             <tr>
-                                <td>{{ $meta->title }}</td>
-                                <td>{{ $meta->description }}</td>
                                 <td>
-                                    @if ($meta->keywords->isEmpty())
-                                        <span class="label label-default">null</span>
-                                    @else
-                                        {{ $meta->keywords_string }}
-                                    @endif
+                                    <span class="label label-default">{{ $meta->seoable_type }}</span>
                                 </td>
+                                <td>{{ $meta->title }}</td>
+                                <td>{{ str_limit($meta->description, 100, '&hellip;') }}</td>
                                 <td class="text-right">
                                     <a href="{{ route('admin::seo.metas.show', [$meta]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
                                         <i class="fa fa-fw fa-search"></i>

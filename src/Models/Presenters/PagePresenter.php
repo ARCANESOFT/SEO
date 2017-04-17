@@ -56,8 +56,8 @@ trait PagePresenter
         return $this->getContentReplacer()->replace($this->content, array_merge([
             'app_name' => config('app.name'),
             'app_url'  => link_to(config('app.url'), config('app.name')),
-            'mobile'   => config('cms.company.mobile'),
-            'phone'    => config('cms.company.phone'),
+            'mobile'   => html()->tel(config('cms.company.mobile')),
+            'phone'    => html()->tel(config('cms.company.phone')),
             'email'    => html()->mailto(config('cms.company.email')),
         ], $replacements));
     }

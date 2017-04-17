@@ -22,12 +22,12 @@
                             </tr>
                             <tr>
                                 <th>Keywords</th>
-                                <td>{{ $meta->keywords }}</td>
+                                <td>{{ $meta->keywords->implode(', ') }}</td>
                             </tr>
                             <tr>
                                 <th>Noindex</th>
                                 <td>
-                                    <span class="label label-{{ $meta->noindex ? 'success' : 'default' }}">
+                                    <span class="label label-{{ $meta->noindex ? 'danger' : 'success' }}">
                                         {{ $meta->noindex ? 'enabled' : 'disabled' }}
                                     </span>
                                 </td>
