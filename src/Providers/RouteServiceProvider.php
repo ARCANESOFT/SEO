@@ -50,6 +50,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function registerRouteBindings()
     {
         Routes\Admin\PagesRoutes::bindings();
+        Routes\Admin\FootersRoutes::bindings();
+        Routes\Admin\MetasRoutes::bindings();
+        Routes\Admin\RedirectsRoutes::bindings();
     }
 
     /**
