@@ -19,6 +19,7 @@ class PackagesServiceProvider extends ServiceProvider
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Register the service provider.
      */
@@ -35,6 +36,7 @@ class PackagesServiceProvider extends ServiceProvider
      |  Packages
      | -----------------------------------------------------------------
      */
+
     /**
      * Register Laravel Seo package.
      */

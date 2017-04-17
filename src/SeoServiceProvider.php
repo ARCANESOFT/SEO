@@ -14,6 +14,7 @@ class SeoServiceProvider extends PackageServiceProvider
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * Package name.
      *
@@ -25,6 +26,7 @@ class SeoServiceProvider extends PackageServiceProvider
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Register the service provider.
      */

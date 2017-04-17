@@ -12,10 +12,11 @@ use Arcanesoft\Seo\ViewComposers\Front\FooterWidgetComposer;
  */
 class ViewComposerServiceProvider extends ServiceProvider
 {
-    /* ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
      |  Properties
-     | ------------------------------------------------------------------------------------------------
+     | -----------------------------------------------------------------
      */
+
     /**
      * Register the composer classes.
      *
@@ -23,7 +24,6 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     protected $composerClasses = [
         // Dashboard view composers
-
 
         // Public view composers (Widgets)
         FooterWidgetComposer::VIEW => FooterWidgetComposer::class,

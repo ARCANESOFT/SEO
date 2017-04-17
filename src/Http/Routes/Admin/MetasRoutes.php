@@ -15,15 +15,24 @@ class MetasRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Register the bindings.
+     */
+    public static function bindings()
+    {
+        $registrar = new static;
+
+        $registrar->bind('seo_meta', function ($id) {
+            return Meta::findOrFail($id);
+        });
+    }
+
     /**
      * Define the routes for the application.
      */
     public function map()
     {
-        $this->bind('seo_meta', function ($id) {
-            return Meta::findOrFail($id);
-        });
-
         $this->prefix('metas')->name('metas.')->group(function () {
             $this->get('/', 'MetasController@index')
                  ->name('index'); // admin::seo.metas.index

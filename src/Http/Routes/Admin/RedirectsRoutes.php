@@ -15,15 +15,24 @@ class RedirectsRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Register the bindings.
+     */
+    public static function bindings()
+    {
+        $registrar = new static;
+
+        $registrar->bind('seo_redirect', function ($id) {
+            return Redirect::findOrFail($id);
+        });
+    }
+
     /**
      * Define the routes for the application.
      */
     public function map()
     {
-        $this->bind('seo_redirect', function ($id) {
-            return Redirect::findOrFail($id);
-        });
-
         $this->prefix('redirects')->name('redirects.')->group(function () {
             $this->get('/', 'RedirectsController@index')
                  ->name('index'); // admin::seo.redirects.index
@@ -44,8 +53,8 @@ class RedirectsRoutes extends RouteRegistrar
                 $this->put('update', 'RedirectsController@update')
                      ->name('update'); // admin::seo.redirects.update
 
-                $this->middleware('ajax')
-                     ->delete('delete', 'RedirectsController@delete')
+                $this->delete('delete', 'RedirectsController@delete')
+                     ->middleware('ajax')
                      ->name('delete'); // admin::seo.redirects.delete
             });
         });

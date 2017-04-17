@@ -15,15 +15,24 @@ class FootersRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Register the bindings.
+     */
+    public static function bindings()
+    {
+        $registrar = new static;
+
+        $registrar->bind('seo_footer', function ($id) {
+            return Footer::findOrFail($id);
+        });
+    }
+
     /**
      * Define the routes for the application.
      */
     public function map()
     {
-        $this->bind('seo_footer', function ($id) {
-            return Footer::findOrFail($id);
-        });
-
         $this->prefix('footers')->name('footers.')->group(function () {
             $this->get('/', 'FootersController@index')
                  ->name('index'); // admin::seo.footers.index
@@ -44,8 +53,8 @@ class FootersRoutes extends RouteRegistrar
                 $this->put('update', 'FootersController@update')
                      ->name('update'); // admin::seo.footers.update
 
-                $this->middleware('ajax')
-                     ->delete('delete', 'FootersController@delete')
+                $this->delete('delete', 'FootersController@delete')
+                     ->middleware('ajax')
                      ->name('delete'); // admin::seo.footers.delete
             });
         });

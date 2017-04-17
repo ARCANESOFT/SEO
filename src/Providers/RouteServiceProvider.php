@@ -15,6 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * The admin controller namespace for the application.
      *
@@ -26,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Define the routes for the application.
      */
@@ -38,10 +40,22 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapPublicRoutes();
     }
 
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+    /**
+     * Register the route bindings.
+     */
+    protected function registerRouteBindings()
+    {
+        Routes\Admin\PagesRoutes::bindings();
+    }
+
     /**
      * Map the admin routes.
      */
-    private function mapAdminRoutes()
+    protected function mapAdminRoutes()
     {
         $this->name('seo.')
              ->prefix($this->config()->get('arcanesoft.seo.route.prefix', 'seo'))
@@ -59,7 +73,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Map the public routes.
      */
-    private function mapPublicRoutes()
+    protected function mapPublicRoutes()
     {
         Routes\Front\FootersRoutes::register();
     }

@@ -15,15 +15,24 @@ class PagesRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Register the bindings.
+     */
+    public static function bindings()
+    {
+        $registrar = new static;
+
+        $registrar->bind('seo_page', function ($id) {
+            return Page::findOrFail($id);
+        });
+    }
+
     /**
      * Define the routes for the application.
      */
     public function map()
     {
-        $this->bind('seo_page', function ($id) {
-            return Page::findOrFail($id);
-        });
-
         $this->prefix('pages')->name('pages.')->group(function () {
             $this->get('/', 'PagesController@index')
                  ->name('index'); // admin::seo.pages.index
@@ -44,8 +53,8 @@ class PagesRoutes extends RouteRegistrar
                 $this->put('update', 'PagesController@update')
                      ->name('update'); // admin::seo.pages.update
 
-                $this->middleware('ajax')
-                     ->delete('delete', 'PagesController@delete')
+                $this->delete('delete', 'PagesController@delete')
+                     ->middleware('ajax')
                      ->name('delete'); // admin::seo.pages.delete
             });
         });
