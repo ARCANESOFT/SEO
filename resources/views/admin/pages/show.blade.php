@@ -70,7 +70,7 @@
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
-                <table class="table table-condensed table-condensed no-margin">
+                <table class="table table-condensed table-hover no-margin">
                     <thead>
                         <tr>
                             <th style="width: 65px;">{{ trans('seo::footers.attributes.locale') }}</th>

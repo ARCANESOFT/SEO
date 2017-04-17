@@ -22,7 +22,7 @@
                         <tr>
                             <th style="width: 65px;">{{ trans('seo::pages.attributes.locale') }}</th>
                             <th>{{ trans('seo::pages.attributes.name') }}</th>
-                            <th class="text-center" style="width: 85px;">{{ trans('seo::footers.titles.footers') }}</th>
+                            <th class="text-center" style="width: 95px;">{{ trans('seo::footers.titles.footers') }}</th>
                             <th class="text-right" style="width: 100px;">Actions</th>
                         </tr>
                     </thead>

@@ -67,36 +67,36 @@
                     {!! $footer->content !!}
                 </div>
             </div>
+        </div>
+    </div>
 
-            {{-- SEO METAS --}}
-            <div class="box">
-                <div class="box-header">
-                    <h2 class="box-title">{{ trans('seo::metas.titles.seo-metas') }}</h2>
-                </div>
-                <div class="box-body no-padding">
-                    <div class="table-responsive">
-                        <table class="table table-condensed no-margin">
-                            <tr>
-                                <th>{{ trans('seo::metas.attributes.title') }}</th>
-                                <td>{{ $footer->seo->title }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ trans('seo::metas.attributes.description') }}</th>
-                                <td>{{ $footer->seo->description }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ trans('seo::metas.attributes.keywords') }}</th>
-                                <td>
-                                    @if ($footer->seo->keywords->isEmpty())
-                                        <span class="label label-default">null</span>
-                                    @else
-                                        {{ $footer->seo->keywords_string }}
-                                    @endif
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+    {{-- SEO METAS --}}
+    <div class="box">
+        <div class="box-header">
+            <h2 class="box-title">{{ trans('seo::metas.titles.seo-metas') }}</h2>
+        </div>
+        <div class="box-body no-padding">
+            <div class="table-responsive">
+                <table class="table table-condensed no-margin">
+                    <tr>
+                        <th>{{ trans('seo::metas.attributes.title') }} :</th>
+                        <td>{{ $footer->seo->title }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('seo::metas.attributes.description') }} :</th>
+                        <td>{{ $footer->seo->description }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('seo::metas.attributes.keywords') }} :</th>
+                        <td>
+                            @if ($footer->seo->keywords->isEmpty())
+                                <span class="label label-default">null</span>
+                            @else
+                                {{ $footer->seo->keywords_string }}
+                            @endif
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
