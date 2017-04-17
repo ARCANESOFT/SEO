@@ -1,26 +1,34 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
+use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanesoft\Seo\Entities\Locales;
 use Arcanesoft\Seo\Http\Requests\Admin\Footers\CreateFooterRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Footers\UpdateFooterRequest;
 use Arcanesoft\Seo\Models\Footer;
 use Arcanesoft\Seo\Models\Page;
 use Illuminate\Support\Facades\Log;
+use Arcanesoft\Seo\Policies;
 
 /**
  * Class     FootersController
  *
  * @package  Arcanesoft\Seo\Http\Controllers\Admin
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo: Add authorization checks
  */
 class FootersController extends Controller
 {
     /* -----------------------------------------------------------------
+     |  Traits
+     | -----------------------------------------------------------------
+     */
+
+    use JsonResponses;
+
+    /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * FootersController constructor.
      */
@@ -29,7 +37,7 @@ class FootersController extends Controller
         parent::__construct();
 
         $this->setCurrentPage('seo-footers');
-        $this->addBreadcrumbRoute('Footers', 'admin::seo.footers.index');
+        $this->addBreadcrumbRoute(trans('seo::footers.titles.footers'), 'admin::seo.footers.index');
     }
 
     /* -----------------------------------------------------------------
@@ -38,27 +46,33 @@ class FootersController extends Controller
      */
     public function index()
     {
-        $this->setTitle($title = 'List of Footers');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\FootersPolicy::PERMISSION_LIST);
 
         $footers = Footer::with(['page', 'seo'])->paginate(50);
+
+        $this->setTitle($title = trans('seo::footers.titles.footers-list'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.footers.index', compact('footers'));
     }
 
     public function create()
     {
-        $this->setTitle($title = 'New Footer');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\FootersPolicy::PERMISSION_CREATE);
 
         $pages   = Page::getSelectInputData();
         $locales = Locales::all();
+
+        $this->setTitle($title = trans('seo::footers.titles.new-footer'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.footers.create', compact('pages', 'locales'));
     }
 
     public function store(CreateFooterRequest $request)
     {
+        $this->authorize(Policies\FootersPolicy::PERMISSION_CREATE);
+
         $inputs = $request->only([
             'name', 'localization', 'uri', 'locale', 'page',
             'seo_title', 'seo_description', 'seo_keywords',
@@ -66,38 +80,42 @@ class FootersController extends Controller
 
         $footer = Footer::createOne($inputs);
 
-        $message = 'The footer was created successfully !';
-        Log::info($message, $footer->toArray());
-        $this->notifySuccess($message, 'Footer created !');
+        $this->transNotification('created', ['name' => $footer->name], $footer->toArray());
 
         return redirect()->route('admin::seo.footers.show', [$footer]);
     }
 
     public function show(Footer $footer)
     {
-        $this->setTitle($title = 'Footer details');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\FootersPolicy::PERMISSION_SHOW);
 
         $footer->load(['page', 'seo']);
+
+        $this->setTitle($title = trans('seo::footers.titles.footer-details'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.footers.show', compact('footer'));
     }
 
     public function edit(Footer $footer)
     {
-        $this->setTitle($title = 'Edit Footer');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\FootersPolicy::PERMISSION_UPDATE);
 
         $footer->load(['page', 'seo']);
 
         $pages   = Page::getSelectInputData();
         $locales = Locales::all();
 
+        $this->setTitle($title = trans('seo::footers.titles.edit-footer'));
+        $this->addBreadcrumb($title);
+
         return $this->view('admin.footers.edit', compact('footer', 'pages', 'locales'));
     }
 
     public function update(Footer $footer, UpdateFooterRequest $request)
     {
+        $this->authorize(Policies\FootersPolicy::PERMISSION_UPDATE);
+
         $inputs = $request->only([
             'name', 'localization', 'uri', 'locale', 'page',
             'seo_title', 'seo_description', 'seo_keywords',
@@ -105,21 +123,44 @@ class FootersController extends Controller
 
         $footer->updateOne($inputs);
 
-        $message = 'The footer was updated successfully !';
-        Log::info($message, $footer->toArray());
-        $this->notifySuccess($message, 'Footer updated !');
+        $this->transNotification('updated', ['name' => $footer->name], $footer->toArray());
 
         return redirect()->route('admin::seo.footers.show', [$footer]);
     }
 
     public function delete(Footer $footer)
     {
+        $this->authorize(Policies\FootersPolicy::PERMISSION_DELETE);
+
         $footer->delete();
 
-        $message = 'The footer was deleted successfully !';
-        Log::info($message, $footer->toArray());
-        $this->notifySuccess($message, 'Footer deleted !');
+        return $this->jsonResponseSuccess([
+            'message' => $this->transNotification('deleted', ['name' => $footer->name], $footer->toArray())
+        ]);
+    }
 
-        return json_response()->success($message);
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Notify with translation.
+     *
+     * @param  string  $action
+     * @param  array   $replace
+     * @param  array   $context
+     *
+     * @return string
+     */
+    protected function transNotification($action, array $replace = [], array $context = [])
+    {
+        $title   = trans("seo::footers.messages.{$action}.title");
+        $message = trans("seo::footers.messages.{$action}.message", $replace);
+
+        Log::info($message, $context);
+        $this->notifySuccess($message, $title);
+
+        return $message;
     }
 }

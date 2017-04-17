@@ -1,9 +1,11 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
+use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanesoft\Seo\Entities\Locales;
 use Arcanesoft\Seo\Http\Requests\Admin\Pages\CreatePageRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Pages\UpdatePageRequest;
 use Arcanesoft\Seo\Models\Page;
+use Arcanesoft\Seo\Policies;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -11,11 +13,16 @@ use Illuminate\Support\Facades\Log;
  *
  * @package  Arcanesoft\Seo\Http\Controllers\Admin
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo: Add authorization checks
  */
 class PagesController extends Controller
 {
+    /* -----------------------------------------------------------------
+     |  Traits
+     | -----------------------------------------------------------------
+     */
+
+    use JsonResponses;
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -28,7 +35,7 @@ class PagesController extends Controller
         parent::__construct();
 
         $this->setCurrentPage('seo-pages');
-        $this->addBreadcrumbRoute('Pages', 'admin::seo.pages.index');
+        $this->addBreadcrumbRoute(trans('seo::pages.titles.pages'), 'admin::seo.pages.index');
     }
 
     /* -----------------------------------------------------------------
@@ -37,78 +44,111 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $this->setTitle($title = 'List of Pages');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\PagesPolicy::PERMISSION_LIST);
 
         $pages = Page::with(['footers'])->paginate(50);
+
+        $this->setTitle($title = trans('seo::pages.titles.pages-list'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.pages.index', compact('pages'));
     }
 
     public function create()
     {
-        $this->setTitle($title = 'New Page');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\PagesPolicy::PERMISSION_CREATE);
 
         $locales = Locales::all();
+
+        $this->setTitle($title = trans('seo::pages.titles.new-page'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.pages.create', compact('locales'));
     }
 
     public function store(CreatePageRequest $request)
     {
+        $this->authorize(Policies\PagesPolicy::PERMISSION_CREATE);
+
         $page = Page::createOne(
             $request->only(['name', 'locale', 'content'])
         );
 
-        $message = "The page was created successfully !";
-        Log::info($message, $page->toArray());
-        $this->notifySuccess($message, 'Page created !');
+        $this->transNotification('created', ['name' => $page->name], $page->toArray());
 
         return redirect()->route('admin::seo.pages.show', [$page]);
     }
 
     public function show(Page $page)
     {
-        $this->setTitle($title = 'Page details');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\PagesPolicy::PERMISSION_SHOW);
 
         $page->load(['footers.seo']);
+
+        $this->setTitle($title = trans('seo::pages.titles.page-details'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.pages.show', compact('page'));
     }
 
     public function edit(Page $page)
     {
-        $this->setTitle($title = 'Edit Page');
-        $this->addBreadcrumb($title);
+        $this->authorize(Policies\PagesPolicy::PERMISSION_UPDATE);
 
         $locales = Locales::all();
+
+        $this->setTitle($title = trans('seo::pages.titles.edit-page'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.pages.edit', compact('page', 'locales'));
     }
 
     public function update(Page $page, UpdatePageRequest $request)
     {
+        $this->authorize(Policies\PagesPolicy::PERMISSION_UPDATE);
+
         $page->updateOne(
             $request->only(['name', 'locale', 'content'])
         );
 
-        $message = "The page was updated successfully !";
-        Log::info($message, $page->toArray());
-        $this->notifySuccess($message, 'Page updated !');
+        $this->transNotification('updated', ['name' => $page->name], $page->toArray());
 
         return redirect()->route('admin::seo.pages.show', [$page]);
     }
 
     public function delete(Page $page)
     {
+        $this->authorize(Policies\PagesPolicy::PERMISSION_DELETE);
+
         $page->delete();
 
-        $message = 'The page was deleted successfully !';
-        Log::info($message, $page->toArray());
-        $this->notifySuccess($message, 'Page deleted !');
+        return $this->jsonResponseSuccess([
+            'message' => $this->transNotification('deleted', ['name' => $page->name], $page->toArray())
+        ]);
+    }
 
-        return json_response()->success($message);
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Notify with translation.
+     *
+     * @param  string  $action
+     * @param  array   $replace
+     * @param  array   $context
+     *
+     * @return string
+     */
+    protected function transNotification($action, array $replace = [], array $context = [])
+    {
+        $title   = trans("seo::pages.messages.{$action}.title");
+        $message = trans("seo::pages.messages.{$action}.message", $replace);
+
+        Log::info($message, $context);
+        $this->notifySuccess($message, $title);
+
+        return $message;
     }
 }

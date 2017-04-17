@@ -36,7 +36,12 @@ class SeoServiceProvider extends PackageServiceProvider
 
         $this->registerConfig();
         $this->registerSidebarItems();
-        $this->registerProvider(Providers\PackagesServiceProvider::class);
+        $this->registerProviders([
+            Providers\AuthorizationServiceProvider::class,
+            Providers\PackagesServiceProvider::class,
+            Providers\RouteServiceProvider::class,
+            Providers\ViewComposerServiceProvider::class,
+        ]);
     }
 
     /**
@@ -45,9 +50,6 @@ class SeoServiceProvider extends PackageServiceProvider
     public function boot()
     {
         parent::boot();
-
-        $this->registerProvider(Providers\RouteServiceProvider::class);
-        $this->registerProvider(Providers\ViewComposerServiceProvider::class);
 
         // Publishes
         $this->publishConfig();

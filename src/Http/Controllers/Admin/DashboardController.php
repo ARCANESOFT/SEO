@@ -12,6 +12,7 @@ class DashboardController extends Controller
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * DashboardController constructor.
      */
@@ -20,15 +21,17 @@ class DashboardController extends Controller
         parent::__construct();
 
         $this->setCurrentPage('seo-dashboard');
+        $this->addBreadcrumbRoute('Statistics', 'admin::seo.stats.index');
     }
 
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     public function index()
     {
-        $this->setTitle('SEO - Statistics');
+        $this->setTitle('Statistics');
 
         return $this->view('admin.dashboard');
     }

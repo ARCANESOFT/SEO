@@ -1,32 +1,35 @@
+<?php /** @var  \Illuminate\Pagination\LengthAwarePaginator  $footers */ ?>
+
 @section('header')
-    <h1>SEO <small>Footers</small></h1>
+    <h1><i class="fa fa-fw fa-th"></i> {{ trans('seo::footers.titles.footers') }} <small>{{ trans('seo::footers.titles.footers-list') }}</small></h1>
 @endsection
 
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            @include('seo::admin._includes.pagination-labels', ['paginator' => $footers])
-            <div class="box-tools">
-                <a href="{{ route('admin::seo.footers.create') }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Add">
-                    <i class="fa fa-fw fa-plus"></i>
-                </a>
-            </div>
+            @include('core::admin._includes.pagination.labels', ['paginator' => $footers])
+
+            @can(\Arcanesoft\Seo\Policies\FootersPolicy::PERMISSION_CREATE)
+                <div class="box-tools">
+                    {{ ui_link_icon('add', route('admin::seo.footers.create')) }}
+                </div>
+            @endcan
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
                 <table class="table table-condensed table-hover no-margin">
                     <thead>
                         <tr>
-                            <th style="width: 65px;">Locale</th>
-                            <th>Name</th>
-                            <th>Localization</th>
-                            <th>URI</th>
-                            <th style="width: 100px;" class="text-right">Actions</th>
+                            <th style="width: 65px;">{{ trans('seo::footers.attributes.locale') }}</th>
+                            <th>{{ trans('seo::footers.attributes.name') }}</th>
+                            <th>{{ trans('seo::footers.attributes.localization') }}</th>
+                            <th>{{ trans('seo::footers.attributes.uri') }}</th>
+                            <th style="width: 100px;" class="text-right">{{ trans('core::generals.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($footers->count())
-                            @foreach ($footers as $footer)
+                        @forelse($footers as $footer)
+                            <?php /** @var  \Arcanesoft\Seo\Models\Footer  $footer */ ?>
                             <tr>
                                 <td>
                                     <span class="label label-inverse">{{ strtoupper($footer->locale) }}</span>
@@ -41,68 +44,76 @@
                                     <span class="label label-primary">{{ $footer->uri }}</span>
                                 </td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin::seo.footers.show', [$footer]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
-                                        <i class="fa fa-fw fa-search"></i>
-                                    </a>
-                                    <a href="{{ route('admin::seo.footers.edit', [$footer]) }}" class="btn btn-xs btn-warning" data-toggle="tooltip" data-original-title="Edit">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </a>
-                                    <a href="#deleteFooterModal" class="btn btn-xs btn-danger" data-toggle="tooltip" data-original-title="Delete" data-footer-id="{{ $footer->id }}">
-                                        <i class="fa fa-fw fa-trash-o"></i>
-                                    </a>
+                                    @can(Arcanesoft\Seo\Policies\FootersPolicy::PERMISSION_SHOW)
+                                        {{ ui_link_icon('show', route('admin::seo.footers.show', [$footer])) }}
+                                    @endcan
+
+                                    @can(Arcanesoft\Seo\Policies\FootersPolicy::PERMISSION_UPDATE)
+                                        {{ ui_link_icon('edit', route('admin::seo.footers.edit', [$footer])) }}
+                                    @endcan
+
+                                    @can(Arcanesoft\Seo\Policies\FootersPolicy::PERMISSION_DELETE)
+                                        {{ ui_link_icon('delete', '#delete-footer-modal', ['data-footer-id' => $footer->id, 'data-footer-name' => $footer->name]) }}
+                                    @endcan
                                 </td>
                             </tr>
-                            @endforeach
-                        @else
+                        @empty
                             <tr>
                                 <td colspan="5" class="text-center">
-                                    <span class="label label-default">The footers list is empty!</span>
+                                    <span class="label label-default">{{ trans('seo::footers.list-empty') }}</span>
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-        @include('seo::admin._includes.pagination-navs', ['paginator' => $footers])
+        @if ($footers->hasPages())
+            <div class="box-footer clearfix">{!! $footers->render() !!}</div>
+        @endif
     </div>
 @endsection
 
 @section('modals')
-    <div id="deleteFooterModal" class="modal fade">
+    @can(Arcanesoft\Seo\Policies\FootersPolicy::PERMISSION_DELETE)
+    <div id="delete-footer-modal" class="modal fade">
         <div class="modal-dialog">
-            {{ Form::open(['route' => ['admin::seo.footers.delete', ':id'], 'method' => 'DELETE', 'id' => 'deleteFooterForm', 'class' => 'form form-loading']) }}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete Footer</h4>
+            {{ Form::open(['route' => ['admin::seo.footers.delete', ':id'], 'method' => 'DELETE', 'id' => 'delete-footer-form', 'class' => 'form form-loading']) }}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">{{ trans('seo::footers.modals.delete.title') }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        {{ ui_button('cancel')->appendClass('pull-left')->setAttribute('data-dismiss', 'modal') }}
+                        {{ ui_button('delete', 'submit')->withLoadingText() }}
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to <span class="label label-danger">delete</span> this footer ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">
-                        <i class="fa fa-fw fa-trash-o"></i> Delete
-                    </button>
-                </div>
-            </div>
             {{ Form::close() }}
         </div>
     </div>
+    @endcan
 @endsection
 
 @section('scripts')
     <script>
         $(function () {
-            var $deleteFooterModal = $('div#deleteFooterModal'),
-                $deleteFooterForm  = $('form#deleteFooterForm'),
+            var $deleteFooterModal = $('div#delete-footer-modal'),
+                $deleteFooterForm  = $('form#delete-footer-form'),
                 deleteFooterAction = $deleteFooterForm.attr('action');
 
-            $('a[href="#deleteFooterModal"]').on('click', function (e) {
+            $('a[href="#delete-footer-modal"]').on('click', function (e) {
                 e.preventDefault();
 
-                $deleteFooterForm.attr('action', deleteFooterAction.replace(':id', $(this).data('footer-id')));
+                var that = $(this);
+
+                $deleteFooterForm.attr('action', deleteFooterAction.replace(':id', that.attr('data-footer-id')));
+                $deleteFooterModal.find('.modal-body p').html(
+                    '{!! trans('seo::footers.modals.delete.message') !!}'.replace(':name', that.attr('data-footer-name'))
+                );
 
                 $deleteFooterModal.modal('show');
             });
@@ -117,28 +128,23 @@
                 var submitBtn = $deleteFooterForm.find('button[type="submit"]');
                     submitBtn.button('loading');
 
-                $.ajax({
-                    url:      $deleteFooterForm.attr('action'),
-                    type:     $deleteFooterForm.attr('method'),
-                    dataType: 'json',
-                    data:     $deleteFooterForm.serialize(),
-                    success: function (data, textStatus, xhr) {
-                        if (data.status == 'success') {
-                            $deleteFooterModal.modal('hide');
-                            location.reload();
-                        }
-                        else {
-                            alert('AJAX ERROR! Check the console!')
-                            console.error(data.message, textStatus, xhr);
-                            submitBtn.button('reset');
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        alert('AJAX ERROR! Check the console!')
-                        console.error(xhr, textStatus, errorThrown);
-                        submitBtn.button('reset');
-                    }
-                });
+                axios.delete($deleteFooterForm.attr('action'))
+                     .then(function (response) {
+                         if (response.data.status === 'success') {
+                             $deleteFooterModal.modal('hide');
+                             location.reload();
+                         }
+                         else {
+                             alert('AJAX ERROR! Check the console!');
+                             console.log(response.data.message);
+                             submitBtn.button('reset');
+                         }
+                     })
+                     .catch(function (error) {
+                         alert('AJAX ERROR! Check the console!');
+                         console.log(error);
+                         submitBtn.button('reset');
+                     });
 
                 return false;
             });

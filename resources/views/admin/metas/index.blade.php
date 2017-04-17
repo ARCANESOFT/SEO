@@ -1,5 +1,7 @@
+<?php /** @var  \Illuminate\Pagination\LengthAwarePaginator  $metas */ ?>
+
 @section('header')
-    <h1>SEO <small>Metas</small></h1>
+    <h1><i class="fa fa-fw fa-tags"></i> {{ trans('seo::metas.titles.metas') }} <small>{{ trans('seo::metas.titles.metas-list') }}</small></h1>
 @endsection
 
 @section('content')

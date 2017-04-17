@@ -1,45 +1,44 @@
 @section('header')
-    <h1>SEO <small>Meta details</small></h1>
+    <h1><i class="fa fa-fw fa-tags"></i> {{ trans('seo::metas.titles.metas') }} <small>{{ trans('seo::metas.titles.metas-details') }}</small></h1>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-md-9">
+            {{-- METAS DETAILS --}}
             <div class="box">
                 <div class="box-header with-border">
-                    <h2 class="box-title">Meta details</h2>
+                    <h2 class="box-title">{{ trans('seo::metas.titles.metas-details') }}</h2>
                 </div>
                 <div class="box-body no-padding">
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>Title</th>
+                                <th>{{ trans('seo::metas.attributes.title') }}</th>
                                 <td>{{ $meta->title }}</td>
                             </tr>
                             <tr>
-                                <th>Description</th>
+                                <th>{{ trans('seo::metas.attributes.description') }}</th>
                                 <td>{{ $meta->description }}</td>
                             </tr>
                             <tr>
-                                <th>Keywords</th>
+                                <th>{{ trans('seo::metas.attributes.keywords') }}</th>
                                 <td>{{ $meta->keywords->implode(', ') }}</td>
                             </tr>
                             <tr>
-                                <th>Noindex</th>
+                                <th>{{ trans('seo::metas.attributes.no-index') }}</th>
                                 <td>
-                                    <span class="label label-{{ $meta->noindex ? 'danger' : 'success' }}">
-                                        {{ $meta->noindex ? 'enabled' : 'disabled' }}
-                                    </span>
+                                    {{ label_active_status($meta->noindex) }}
                                 </td>
                             </tr>
                             <tr>
-                                <th>Created at</th>
+                                <th>{{ trans('core::generals.created_at') }}</th>
                                 <td>
                                     <small>{{ $meta->created_at }}</small>
                                 </td>
                             </tr>
                             <tr>
-                                <th>Updated at</th>
+                                <th>{{ trans('core::generals.created_at') }}</th>
                                 <td>
                                     <small>{{ $meta->updated_at }}</small>
                                 </td>
@@ -59,7 +58,7 @@
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>Title</th>
+                                <th>{{ trans('seo::metas.attributes.title') }}</th>
                                 <td class="text-right">
                                     <span class="label label-{{ $meta->title_status }}">
                                         {{ $meta->title_length }} chars
@@ -67,17 +66,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Description</th>
+                                <th>{{ trans('seo::metas.attributes.description') }}</th>
                                 <td class="text-right">
                                     <span class="label label-{{ $meta->description_status }}">
-                                        {{ $meta->description_length }} chars
+                                        {{ trans('seo::metas.scores.chars', ['count' => $meta->description_length]) }}
                                     </span>
                                 </td>
                             </tr>
                             <tr>
-                                <th>Keywords</th>
+                                <th>{{ trans('seo::metas.attributes.keywords') }}</th>
                                 <td class="text-right">
-                                    <span class="label label-default">{{ $meta->keywords->count() }} words</span>
+                                    <span class="label label-default">
+                                        {{ trans('seo::metas.scores.words', ['count' => $meta->keywords->count()]) }}
+                                    </span>
                                 </td>
                             </tr>
                         </table>
@@ -88,13 +89,13 @@
             {{-- SEOABLE --}}
             <div class="box">
                 <div class="box-header with-border">
-                    <h2 class="box-title">SEO entity</h2>
+                    <h2 class="box-title">{{ trans('seo::metas.titles.seo-entity') }}</h2>
                 </div>
                 <div class="box-body no-padding">
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>Type</th>
+                                <th>{{ trans('seo::metas.attributes.type') }}</th>
                                 <td class="text-right">
                                     <span class="label label-default">{{ $meta->seoable_type }}</span>
                                 </td>
@@ -103,20 +104,10 @@
                     </div>
                 </div>
                 <div class="box-footer text-right">
-                    <a href="{{ $meta->seoable->getShowUrl() }}" class="btn btn-sm btn-info">
-                        <i class="fa fa-fw fa-search"></i> Show
-                    </a>
-                    <a href="{{ $meta->seoable->getEditUrl() }}" class="btn btn-sm btn-warning">
-                        <i class="fa fa-fw fa-pencil"></i> Edit
-                    </a>
+                    {{ ui_link('show', $meta->seoable->getShowUrl()) }}
+                    {{ ui_link('edit', $meta->seoable->getEditUrl()) }}
                 </div>
             </div>
         </div>
     </div>
-@endsection
-
-@section('modals')
-@endsection
-
-@section('scripts')
 @endsection

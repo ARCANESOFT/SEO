@@ -1,112 +1,118 @@
+<?php /** @var  \Illuminate\Pagination\LengthAwarePaginator  $pages */ ?>
+
 @section('header')
-    <h1>SEO <small>Pages</small></h1>
+    <h1><i class="fa fa-fw fa-files-o"></i> {{ trans('seo::pages.titles.pages') }} <small>{{ trans('seo::pages.titles.pages-list') }}</small></h1>
 @endsection
 
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            @include('seo::admin._includes.pagination-labels', ['paginator' => $pages])
+            @include('core::admin._includes.pagination.labels', ['paginator' => $pages])
+
+            @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_CREATE)
             <div class="box-tools">
-                <a href="{{ route('admin::seo.pages.create') }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Add">
-                    <i class="fa fa-fw fa-plus"></i>
-                </a>
+                {{ ui_link_icon('add', route('admin::seo.pages.create')) }}
             </div>
+            @endcan
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
                 <table class="table table-condensed table-hover no-margin">
                     <thead>
                         <tr>
-                            <th style="width: 65px;">Locale</th>
-                            <th>Name</th>
-                            <th class="text-center" style="width: 85px;">Nb. Footers</th>
+                            <th style="width: 65px;">{{ trans('seo::pages.attributes.locale') }}</th>
+                            <th>{{ trans('seo::pages.attributes.name') }}</th>
+                            <th class="text-center" style="width: 85px;">{{ trans('seo::footers.titles.footers') }}</th>
                             <th class="text-right" style="width: 100px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($pages->count())
-                            @foreach ($pages as $page)
+                        @forelse($pages as $page)
+                            <?php /** @var  \Arcanesoft\Seo\Models\Page  $page */ ?>
                             <tr>
                                 <td>
                                     <span class="label label-inverse">{{ strtoupper($page->locale) }}</span>
                                 </td>
                                 <td>
-                                    {{ $page->name }}
+                                    <b>{{ $page->name }}</b>
                                 </td>
                                 <td class="text-center">
-                                    <span class="label label-{{ $page->footers->count() ? 'info' : 'default' }}">
-                                        {{ $page->footers->count() }}
-                                    </span>
+                                    {{ label_count($page->footers->count()) }}
                                 </td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin::seo.pages.show', [$page]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
-                                        <i class="fa fa-fw fa-search"></i>
-                                    </a>
-                                    <a href="{{ route('admin::seo.pages.edit', [$page]) }}" class="btn btn-xs btn-warning" data-toggle="tooltip" data-original-title="Edit">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </a>
-                                    @if ($page->isDeletable())
-                                    <a href="#deletePageModal" class="btn btn-xs btn-danger" data-toggle="tooltip" data-original-title="Delete" data-page-id="{{ $page->id }}">
-                                        <i class="fa fa-fw fa-trash-o"></i>
-                                    </a>
-                                    @else
-                                    <button class="btn btn-xs btn-default" data-toggle="tooltip" data-original-title="Delete" disabled>
-                                        <i class="fa fa-fw fa-trash-o"></i>
-                                    </button>
-                                    @endif
+                                    @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_SHOW)
+                                        {{ ui_link_icon('show', route('admin::seo.pages.show', [$page])) }}
+                                    @endcan
+
+                                    @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_UPDATE)
+                                        {{ ui_link_icon('edit', route('admin::seo.pages.edit', [$page])) }}
+                                    @endcan
+
+                                    @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_DELETE)
+                                        {{ ui_link_icon('delete', '#delete-page-modal', ['data-page-id' => $page->id, 'data-page-name' => $page->name], ! $page->isDeletable()) }}
+                                    @endcan
                                 </td>
                             </tr>
-                            @endforeach
-                        @else
+                        @empty
                             <tr>
                                 <td colspan="4" class="text-center">
-                                    <span class="label label-default">The pages list is empty!</span>
+                                    <span class="label label-default">{{ trans('seo::pages.list-empty') }}</span>
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-        @include('seo::admin._includes.pagination-navs', ['paginator' => $pages])
+        @if ($pages->hasPages())
+            <div class="box-footer clearfix">{!! $pages->render() !!}</div>
+        @endif
     </div>
 @endsection
 
 @section('modals')
-    <div id="deletePageModal" class="modal fade">
+    {{-- DELETE MODAL --}}
+    @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_DELETE)
+    <div id="delete-page-modal" class="modal fade">
         <div class="modal-dialog">
-            {{ Form::open(['route' => ['admin::seo.pages.delete', ':id'], 'method' => 'DELETE', 'id' => 'deletePageForm', 'class' => 'form form-loading']) }}
+            {{ Form::open(['route' => ['admin::seo.pages.delete', ':id'], 'method' => 'DELETE', 'id' => 'delete-page-form', 'class' => 'form form-loading']) }}
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete Page</h4>
+                    <h4 class="modal-title">{{ trans('seo::pages.modals.delete.title') }}</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to <span class="label label-danger">delete</span> this page ?</p>
+                    <p></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-danger" data-loading-text="Loading&hellip;">
-                        <i class="fa fa-fw fa-trash-o"></i> Delete
-                    </button>
+                    {{ ui_button('cancel')->appendClass('pull-left')->setAttribute('data-dismiss', 'modal') }}
+                    {{ ui_button('delete', 'submit')->withLoadingText() }}
                 </div>
             </div>
             {{ Form::close() }}
         </div>
     </div>
+    @endcan
 @endsection
 
 @section('scripts')
+    {{-- DELETE SCRIPT --}}
+    @can(\Arcanesoft\Seo\Policies\PagesPolicy::PERMISSION_DELETE)
     <script>
         $(function () {
-            var $deletePageModal = $('div#deletePageModal'),
-                $deletePageForm  = $('form#deletePageForm'),
+            var $deletePageModal = $('div#delete-page-modal'),
+                $deletePageForm  = $('form#delete-page-form'),
                 deletePageAction = $deletePageForm.attr('action');
 
-            $('a[href="#deletePageModal"]').on('click', function (e) {
+            $('a[href="#delete-page-modal"]').on('click', function (e) {
                 e.preventDefault();
 
-                $deletePageForm.attr('action', deletePageAction.replace(':id', $(this).data('page-id')));
+                var that = $(this);
+
+                $deletePageForm.attr('action', deletePageAction.replace(':id', that.attr('data-page-id')));
+                $deletePageModal.find('.modal-body p').html(
+                    '{!! trans('seo::pages.modals.delete.message') !!}'.replace(':name', that.attr('data-page-name'))
+                );
 
                 $deletePageModal.modal('show');
             });
@@ -121,31 +127,27 @@
                 var submitBtn = $deletePageForm.find('button[type="submit"]');
                     submitBtn.button('loading');
 
-                $.ajax({
-                    url:      $deletePageForm.attr('action'),
-                    type:     $deletePageForm.attr('method'),
-                    dataType: 'json',
-                    data:     $deletePageForm.serialize(),
-                    success: function (data, textStatus, xhr) {
-                        if (data.status == 'success') {
-                            $deletePageModal.modal('hide');
-                            location.reload();
-                        }
-                        else {
-                            alert('AJAX ERROR! Check the console!')
-                            console.error(data.message, textStatus, xhr);
-                            submitBtn.button('reset');
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        alert('AJAX ERROR! Check the console!')
-                        console.error(xhr, textStatus, errorThrown);
-                        submitBtn.button('reset');
-                    }
-                });
+                axios.delete($deletePageForm.attr('action'))
+                     .then(function (response) {
+                         if (response.data.status === 'success') {
+                             $deletePageModal.modal('hide');
+                             location.reload();
+                         }
+                         else {
+                             alert('AJAX ERROR! Check the console!');
+                             console.log(response.data.message);
+                             submitBtn.button('reset');
+                         }
+                     })
+                     .catch(function (error) {
+                         alert('AJAX ERROR! Check the console!');
+                         console.log(error);
+                         submitBtn.button('reset');
+                     });
 
                 return false;
             });
         });
     </script>
+    @endcan
 @endsection
