@@ -14,31 +14,31 @@
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.title') }}</th>
+                                <th>{{ trans('seo::metas.attributes.title') }} :</th>
                                 <td>{{ $meta->title }}</td>
                             </tr>
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.description') }}</th>
+                                <th>{{ trans('seo::metas.attributes.description') }} :</th>
                                 <td>{{ $meta->description }}</td>
                             </tr>
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.keywords') }}</th>
-                                <td>{{ $meta->keywords->implode(', ') }}</td>
+                                <th>{{ trans('seo::metas.attributes.keywords') }} :</th>
+                                <td>{{ $meta->keywords ? $meta->keywords->implode(', ') : '<null>' }}</td>
                             </tr>
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.no-index') }}</th>
+                                <th>{{ trans('seo::metas.attributes.no-index') }} :</th>
                                 <td>
                                     {{ label_active_status($meta->noindex) }}
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{ trans('core::generals.created_at') }}</th>
+                                <th>{{ trans('core::generals.created_at') }} :</th>
                                 <td>
                                     <small>{{ $meta->created_at }}</small>
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{ trans('core::generals.created_at') }}</th>
+                                <th>{{ trans('core::generals.created_at') }} :</th>
                                 <td>
                                     <small>{{ $meta->updated_at }}</small>
                                 </td>
@@ -58,7 +58,7 @@
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.title') }}</th>
+                                <th>{{ trans('seo::metas.attributes.title') }} :</th>
                                 <td class="text-right">
                                     <span class="label label-{{ $meta->title_status }}">
                                         {{ $meta->title_length }} chars
@@ -66,7 +66,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.description') }}</th>
+                                <th>{{ trans('seo::metas.attributes.description') }} :</th>
                                 <td class="text-right">
                                     <span class="label label-{{ $meta->description_status }}">
                                         {{ trans('seo::metas.scores.chars', ['count' => $meta->description_length]) }}
@@ -74,10 +74,10 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.keywords') }}</th>
+                                <th>{{ trans('seo::metas.attributes.keywords') }} :</th>
                                 <td class="text-right">
                                     <span class="label label-default">
-                                        {{ trans('seo::metas.scores.words', ['count' => $meta->keywords->count()]) }}
+                                        {{ trans('seo::metas.scores.words', ['count' => $meta->keywords ? $meta->keywords->count() : 0]) }}
                                     </span>
                                 </td>
                             </tr>
@@ -95,7 +95,7 @@
                     <div class="table-responsive">
                         <table class="table table-condensed table-hover no-margin">
                             <tr>
-                                <th>{{ trans('seo::metas.attributes.type') }}</th>
+                                <th>{{ trans('seo::metas.attributes.type') }} :</th>
                                 <td class="text-right">
                                     <span class="label label-default">{{ $meta->seoable_type }}</span>
                                 </td>

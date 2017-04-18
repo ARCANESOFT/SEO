@@ -1,31 +1,33 @@
+<?php /** @var  \Illuminate\Pagination\LengthAwarePaginator  $redirects */ ?>
+
 @section('header')
-    <h1>SEO <small>Redirections</small></h1>
+    <h1><i class="fa fa-fw fa-random"></i> {{ trans('seo::redirects.titles.redirections') }} <small>{{ trans('seo::redirects.titles.redirections-list') }}</small></h1>
 @endsection
 
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            @include('seo::admin._includes.pagination-labels', ['paginator' => $redirects])
+            @include('core::admin._includes.pagination.labels', ['paginator' => $redirects])
+
+            @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_CREATE)
             <div class="box-tools">
-                <a href="{{ route('admin::seo.redirects.create') }}" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Add">
-                    <i class="fa fa-plus"></i>
-                </a>
+                {{ ui_link_icon('add', route('admin::seo.redirects.create')) }}
             </div>
+            @endcan
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
                 <table class="table table-condensed table-hover no-margin">
                     <thead>
-                    <tr>
-                        <th>Old URL</th>
-                        <th>New URL</th>
-                        <th class="text-center" style="width: 55px;">Status</th>
-                        <th class="text-right" style="width: 100px;">Actions</th>
-                    </tr>
+                        <tr>
+                            <th>{{ trans('seo::redirects.attributes.old_url') }}</th>
+                            <th>{{ trans('seo::redirects.attributes.new_url') }}</th>
+                            <th class="text-center" style="width: 55px;">{{ trans('seo::redirects.attributes.status') }}</th>
+                            <th class="text-right" style="width: 100px;">{{ trans('core::generals.actions') }}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @if ($redirects->count())
-                            @foreach ($redirects as $redirect)
+                        @forelse($redirects as $redirect)
                             <tr>
                                 <td>
                                     <span class="label label-default">{{ $redirect->old_url }}</span>
@@ -39,69 +41,74 @@
                                     </span>
                                 </td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin::seo.redirects.show', [$redirect]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
-                                        <i class="fa fa-fw fa-search"></i>
-                                    </a>
-                                    <a href="{{ route('admin::seo.redirects.edit', [$redirect]) }}" class="btn btn-xs btn-warning" data-toggle="tooltip" data-original-title="Edit">
-                                        <i class="fa fa-fw fa-pencil"></i>
-                                    </a>
-                                    <a href="#deleteRedirectModal" class="btn btn-xs btn-danger" data-toggle="tooltip" data-original-title="Delete" data-redirect-id="{{ $redirect->id }}">
-                                        <i class="fa fa-fw fa-trash-o"></i>
-                                    </a>
+                                    @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_SHOW)
+                                        {{ ui_link_icon('show', route('admin::seo.redirects.show', [$redirect])) }}
+                                    @endcan
+
+                                    @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_UPDATE)
+                                        {{ ui_link_icon('edit', route('admin::seo.redirects.edit', [$redirect])) }}
+                                    @endcan
+
+                                    @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_DELETE)
+                                        {{ ui_link_icon('delete', '#delete-redirect-modal', ['data-redirect-id' => $redirect->id]) }}
+                                    @endcan
                                 </td>
                             </tr>
-                            @endforeach
-                        @else
+                        @empty
                             <tr>
                                 <td colspan="4" class="text-center">
-                                    <span class="label label-default">The redirections list is empty!</span>
+                                    <span class="label label-default">{{ trans('seo::redirects.list-empty') }}</span>
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-        @include('seo::admin._includes.pagination-navs', ['paginator' => $redirects])
+        @if ($redirects->hasPages())
+            <div class="box-footer clearfix">{!! $redirects->render() !!}</div>
+        @endif
     </div>
 @endsection
 
 @section('modals')
-    <div id="deleteRedirectModal" class="modal fade">
+    {{-- DELETE MODAL --}}
+    @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_DELETE)
+    <div id="delete-redirect-modal" class="modal fade">
         <div class="modal-dialog">
-            {{ Form::open(['route' => ['admin::seo.redirects.delete', ':id'], 'method' => 'DELETE', 'id' => 'deleteRedirectForm', 'class' => 'form form-loading']) }}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Delete Redirection</h4>
+            {{ Form::open(['route' => ['admin::seo.redirects.delete', ':id'], 'method' => 'DELETE', 'id' => 'delete-redirect-form', 'class' => 'form form-loading']) }}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">{{ trans('seo::redirects.modals.delete.title') }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{!! trans('seo::redirects.modals.delete.message') !!}</p>
+                    </div>
+                    <div class="modal-footer">
+                        {{ ui_button('cancel')->appendClass('pull-left')->setAttribute('data-dismiss', 'modal') }}
+                        {{ ui_button('delete', 'submit')->withLoadingText() }}
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to <span class="label label-danger">delete</span> this redirection ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        <i class="fa fa-fw fa-trash-o"></i> Delete
-                    </button>
-                </div>
-            </div>
             {{ Form::close() }}
         </div>
     </div>
+    @endcan
 @endsection
 
 @section('scripts')
+    {{-- DELETE SCRIPT --}}
+    @can(Arcanesoft\Seo\Policies\RedirectsPolicy::PERMISSION_DELETE)
     <script>
         $(function () {
-            // DELETE MODAL
-            var $deleteRedirectModal = $('div#deleteRedirectModal'),
-                $deleteRedirectForm  = $('form#deleteRedirectForm'),
+            var $deleteRedirectModal = $('div#delete-redirect-modal'),
+                $deleteRedirectForm  = $('form#delete-redirect-form'),
                 deleteRedirectAction = $deleteRedirectForm.attr('action');
 
-            $('a[href="#deleteRedirectModal"]').on('click', function (e) {
+            $('a[href="#delete-redirect-modal"]').on('click', function (e) {
                 e.preventDefault();
 
-                $deleteRedirectForm.attr('action', deleteRedirectAction.replace(':id', $(this).data('redirect-id')));
+                $deleteRedirectForm.attr('action', deleteRedirectAction.replace(':id', $(this).attr('data-redirect-id')));
 
                 $deleteRedirectModal.modal('show');
             });
@@ -112,34 +119,31 @@
 
             $deleteRedirectForm.on('submit', function (e) {
                 e.preventDefault();
+
                 var submitBtn = $deleteRedirectForm.find('button[type="submit"]');
                     submitBtn.button('loading');
 
-                $.ajax({
-                    url:      $deleteRedirectForm.attr('action'),
-                    type:     $deleteRedirectForm.attr('method'),
-                    dataType: 'json',
-                    data:     $deleteRedirectForm.serialize(),
-                    success: function (data, textStatus, xhr) {
-                        if (data.status == 'success') {
-                            $deleteRedirectModal.modal('hide');
-                            location.replace("{{ route('admin::seo.redirects.index') }}");
-                        }
-                        else {
-                            console.error(data.message);
-                            alert('AJAX ERROR! Check the console.')
-                            submitBtn.button('reset');
-                        }
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        console.debug(xhr, textStatus, errorThrown);
-                        alert('AJAX ERROR! Check the console.')
-                        submitBtn.button('reset');
-                    }
-                });
+                axios.delete($deleteRedirectForm.attr('action'))
+                     .then(function (response) {
+                         if (response.data.status === 'success') {
+                             $deleteRedirectModal.modal('hide');
+                             location.reload();
+                         }
+                         else {
+                             console.error(response.data.message);
+                             alert('AJAX ERROR! Check the console.');
+                             submitBtn.button('reset');
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                         alert('AJAX ERROR! Check the console.');
+                         submitBtn.button('reset');
+                     });
 
                 return false;
             });
         });
     </script>
+    @endcan
 @endsection

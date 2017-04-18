@@ -11,7 +11,7 @@ $seoMetas = $model['metas'];
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group {{ $errors->first('seo_description', 'has-error') }}">
-                    {{ Form::label('seo_title', 'Title :') }}
+                    {{ Form::label('seo_title', trans('seo::metas.attributes.title').' :') }}
                     {{ Form::text('seo_title', old('seo_title', $model['title']), ['class' => 'form-control', 'rows' => 1, 'style' => 'resize: none;']) }}
                     @if ($errors->has('seo_title'))
                         <span class="text-red">{!! $errors->first('seo_title') !!}</span>
@@ -21,7 +21,7 @@ $seoMetas = $model['metas'];
 
             <div class="col-xs-12">
                 <div class="form-group {{ $errors->first('seo_description', 'has-error') }}">
-                    {{ Form::label('seo_description', 'Description :') }}
+                    {{ Form::label('seo_description', trans('seo::metas.attributes.description').' :') }}
                     {{ Form::textarea('seo_description', old('seo_description', $model['description']), ['class' => 'form-control', 'rows' => 1, 'style' => 'resize: none;']) }}
                     @if ($errors->has('seo_description'))
                         <span class="text-red">{!! $errors->first('seo_description') !!}</span>
@@ -31,7 +31,7 @@ $seoMetas = $model['metas'];
 
             <div class="col-xs-12">
                 <div class="form-group {{ $errors->first('seo_keywords', 'has-error') }}">
-                    {{ Form::label('seo_keywords[]', 'Keywords :') }}
+                    {{ Form::label('seo_keywords[]', trans('seo::metas.attributes.keywords').' :') }}
                     {{ Form::select('seo_keywords[]', [], old('seo_keywords', $model['keywords']), ['class' => 'form-control', 'multiple' => 'multiple', 'data-placeholder' => 'Add keywords', 'style' => 'width: 100%;']) }}
                     @if ($errors->has('seo_keywords'))
                         <span class="text-red">{!! $errors->first('seo_keywords') !!}</span>

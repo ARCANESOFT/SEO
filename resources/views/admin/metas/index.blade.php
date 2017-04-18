@@ -7,22 +7,21 @@
 @section('content')
     <div class="box">
         <div class="box-header with-border">
-            @include('seo::admin._includes.pagination-labels', ['paginator' => $metas])
+            @include('core::admin._includes.pagination.labels', ['paginator' => $metas])
         </div>
         <div class="box-body no-padding">
             <div class="table-responsive">
                 <table class="table table-condensed table-hover no-margin">
                     <thead>
-                    <tr>
-                        <th>Entity</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th class="text-right">Actions</th>
-                    </tr>
+                        <tr>
+                            <th>{{ trans('seo::metas.attributes.type') }}</th>
+                            <th>{{ trans('seo::metas.attributes.title') }}</th>
+                            <th>{{ trans('seo::metas.attributes.description') }}</th>
+                            <th class="text-right">{{ trans('core::generals.actions') }}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @if ($metas->count())
-                            @foreach ($metas as $meta)
+                        @forelse($metas as $meta)
                             <tr>
                                 <td>
                                     <span class="label label-default">{{ $meta->seoable_type }}</span>
@@ -30,24 +29,23 @@
                                 <td>{{ $meta->title }}</td>
                                 <td>{{ str_limit($meta->description, 100, '&hellip;') }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin::seo.metas.show', [$meta]) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-original-title="Show">
-                                        <i class="fa fa-fw fa-search"></i>
-                                    </a>
+                                    {{ ui_link_icon('show', route('admin::seo.metas.show', [$meta])) }}
                                 </td>
                             </tr>
-                            @endforeach
-                        @else
+                        @empty
                             <tr>
                                 <td colspan="4" class="text-center">
-                                    <span class="label label-default">The metas list is empty!</span>
+                                    <span class="label label-default">{{ trans('seo::metas.list-empty') }}</span>
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-        @include('seo::admin._includes.pagination-navs', ['paginator' => $metas])
+        @if ($metas->hasPages())
+            <div class="box-footer clearfix">{!! $metas->render() !!}</div>
+        @endif
     </div>
 @endsection
 
