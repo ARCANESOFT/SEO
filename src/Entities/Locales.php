@@ -1,5 +1,7 @@
 <?php namespace Arcanesoft\Seo\Entities;
 
+use Illuminate\Support\Collection;
+
 /**
  * Class     Locales
  *
@@ -12,6 +14,7 @@ class Locales
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Get all the supported locales.
      *
@@ -19,11 +22,7 @@ class Locales
      */
     public static function all()
     {
-        $locales = config('arcanesoft.seo.locales', []);
-
-        return collect(array_combine($locales, $locales))->transform(function ($locale) {
-            return trans("seo::locales.$locale");
-        });
+        return new Collection(trans("seo::locales"));
     }
 
     /**
@@ -46,6 +45,6 @@ class Locales
      */
     public static function get($key, $default = null)
     {
-        return static::all()->get($key);
+        return static::all()->get($key, $default);
     }
 }

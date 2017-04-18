@@ -1,5 +1,6 @@
 <?php namespace Arcanesoft\Seo\Tests;
 
+use Arcanesoft\Auth\AuthServiceProvider;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 
 /**
@@ -24,6 +25,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
+            \Arcanesoft\Auth\AuthServiceProvider::class,
             \Arcanesoft\Seo\SeoServiceProvider::class,
         ];
     }
