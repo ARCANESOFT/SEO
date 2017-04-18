@@ -42,6 +42,8 @@ class SeoServiceProvider extends PackageServiceProvider
             Providers\RouteServiceProvider::class,
             Providers\ViewComposerServiceProvider::class,
         ]);
+
+        $this->registerConsoleServiceProvider(Providers\CommandServiceProvider::class);
     }
 
     /**
