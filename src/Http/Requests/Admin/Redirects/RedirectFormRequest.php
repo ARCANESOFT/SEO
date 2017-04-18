@@ -17,6 +17,17 @@ abstract class RedirectFormRequest extends FormRequest
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Get only the validated data.
+     *
+     * @return array
+     */
+    public function getValidatedInputs()
+    {
+        return $this->only(['old_url', 'new_url', 'status']);
+    }
+
     /**
      * Get the `old_url` unique rule.
      *
@@ -26,9 +37,9 @@ abstract class RedirectFormRequest extends FormRequest
      */
     public function getOldUrlRule($column = 'old_url')
     {
-        $table = Seo::getConfig('database.prefix').Seo::getConfig('redirects.table');
-
-        return Rule::unique($table, $column);
+        return Rule::unique(
+            Seo::getConfig('database.prefix').Seo::getConfig('redirects.table'), $column
+        );
     }
 
     /**

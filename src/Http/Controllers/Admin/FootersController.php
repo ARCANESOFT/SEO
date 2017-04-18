@@ -6,8 +6,8 @@ use Arcanesoft\Seo\Http\Requests\Admin\Footers\CreateFooterRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Footers\UpdateFooterRequest;
 use Arcanesoft\Seo\Models\Footer;
 use Arcanesoft\Seo\Models\Page;
-use Illuminate\Support\Facades\Log;
 use Arcanesoft\Seo\Policies;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class     FootersController
@@ -44,6 +44,7 @@ class FootersController extends Controller
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     public function index()
     {
         $this->authorize(Policies\FootersPolicy::PERMISSION_LIST);
@@ -73,12 +74,9 @@ class FootersController extends Controller
     {
         $this->authorize(Policies\FootersPolicy::PERMISSION_CREATE);
 
-        $inputs = $request->only([
-            'name', 'localization', 'uri', 'locale', 'page',
-            'seo_title', 'seo_description', 'seo_keywords',
-        ]);
-
-        $footer = Footer::createOne($inputs);
+        $footer = Footer::createOne(
+            $request->getValidatedInputs()
+        );
 
         $this->transNotification('created', ['name' => $footer->name], $footer->toArray());
 
@@ -116,12 +114,9 @@ class FootersController extends Controller
     {
         $this->authorize(Policies\FootersPolicy::PERMISSION_UPDATE);
 
-        $inputs = $request->only([
-            'name', 'localization', 'uri', 'locale', 'page',
-            'seo_title', 'seo_description', 'seo_keywords',
-        ]);
-
-        $footer->updateOne($inputs);
+        $footer->updateOne(
+            $request->getValidatedInputs()
+        );
 
         $this->transNotification('updated', ['name' => $footer->name], $footer->toArray());
 

@@ -42,6 +42,7 @@ class PagesController extends Controller
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     public function index()
     {
         $this->authorize(Policies\PagesPolicy::PERMISSION_LIST);
@@ -71,7 +72,7 @@ class PagesController extends Controller
         $this->authorize(Policies\PagesPolicy::PERMISSION_CREATE);
 
         $page = Page::createOne(
-            $request->only(['name', 'locale', 'content'])
+            $request->getValidatedInputs()
         );
 
         $this->transNotification('created', ['name' => $page->name], $page->toArray());
@@ -108,7 +109,7 @@ class PagesController extends Controller
         $this->authorize(Policies\PagesPolicy::PERMISSION_UPDATE);
 
         $page->updateOne(
-            $request->only(['name', 'locale', 'content'])
+            $request->getValidatedInputs()
         );
 
         $this->transNotification('updated', ['name' => $page->name], $page->toArray());

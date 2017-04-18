@@ -10,5 +10,18 @@ use Arcanesoft\Seo\Http\Requests\Admin\FormRequest;
  */
 abstract class PageFormRequest extends FormRequest
 {
-    //
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the validated inputs.
+     *
+     * @return array
+     */
+    public function getValidatedInputs()
+    {
+        return $this->only(['name', 'locale', 'content']);
+    }
 }

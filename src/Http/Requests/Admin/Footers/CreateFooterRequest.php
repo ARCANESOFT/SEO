@@ -30,11 +30,13 @@ class CreateFooterRequest extends FooterFormRequest
     public function rules()
     {
         return [
+            // Footer Rules
             'name'            => ['required'],
             'localization'    => ['required'],
             'uri'             => ['required', $this->getUniqueUriRule()],
             'locale'          => $this->getLocaleRule(),
             'page'            => $this->getPageRule(),
+            // SEO Rules
             'seo_title'       => ['required'],
             'seo_description' => ['required'],
             'seo_keywords'    => ['required', 'array', 'min:1'],

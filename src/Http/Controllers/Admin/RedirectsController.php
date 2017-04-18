@@ -1,9 +1,11 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
+use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\CreateRedirectRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\UpdateRedirectRequest;
 use Arcanesoft\Seo\Models\Redirect;
+use Arcanesoft\Seo\Policies\RedirectsPolicy;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -11,104 +13,186 @@ use Illuminate\Support\Facades\Log;
  *
  * @package  Arcanesoft\Seo\Http\Controllers\Admin
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @todo: Add authorization checks
  */
 class RedirectsController extends Controller
 {
     /* -----------------------------------------------------------------
+     |  Traits
+     | -----------------------------------------------------------------
+     */
+
+    use JsonResponses;
+
+    /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
-     * MetasController constructor.
+     * RedirectsController constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
         $this->setCurrentPage('seo-redirects');
-        $this->addBreadcrumbRoute('Redirections', 'admin::seo.redirects.index');
+        $this->addBreadcrumbRoute(trans('seo::redirects.titles.redirections'), 'admin::seo.redirects.index');
     }
 
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Get the index page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        $this->setTitle($title = 'List of Redirections');
-        $this->addBreadcrumb($title);
+        $this->authorize(RedirectsPolicy::PERMISSION_LIST);
 
         $redirects = Redirect::paginate(50);
+
+        $this->setTitle($title = trans('seo::redirects.titles.redirections-list'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.redirects.index', compact('redirects'));
     }
 
+    /**
+     * Get the create form.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
-        $this->setTitle($title = 'New Redirection');
-        $this->addBreadcrumb($title);
+        $this->authorize(RedirectsPolicy::PERMISSION_CREATE);
 
         $statuses = RedirectStatuses::all();
+
+        $this->setTitle($title = trans('seo::redirects.titles.create-redirection'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.redirects.create', compact('statuses'));
     }
 
+    /**
+     * Store the new redirect.
+     *
+     * @param  \Arcanesoft\Seo\Http\Requests\Admin\Redirects\CreateRedirectRequest  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(CreateRedirectRequest $request)
     {
+        $this->authorize(RedirectsPolicy::PERMISSION_CREATE);
+
         $redirect = Redirect::createOne(
-            $request->get('old_url'),
-            $request->get('new_url'),
-            $request->get('status')
+            $request->getValidatedInputs()
         );
 
-        $message = "The redirection was created successfully !";
-        Log::info($message, $redirect->toArray());
-        $this->notifySuccess($message, 'Redirection created !');
+        $this->transNotification('created', [], $redirect->toArray());
 
-        return redirect()->route('admin::seo.redirects.index');
+        return redirect()->route('admin::seo.redirects.show', [$redirect]);
     }
 
+    /**
+     * Show the redirect details page.
+     *
+     * @param  \Arcanesoft\Seo\Models\Redirect  $redirect
+     *
+     * @return \Illuminate\View\View
+     */
     public function show(Redirect $redirect)
     {
-        $this->setTitle($title = 'Redirection details');
+        $this->authorize(RedirectsPolicy::PERMISSION_SHOW);
+
+        $this->setTitle($title = trans('seo::redirects.titles.redirection-details'));
         $this->addBreadcrumb($title);
 
         return $this->view('admin.redirects.show', compact('redirect'));
     }
 
+    /**
+     * Get the edit page.
+     *
+     * @param  \Arcanesoft\Seo\Models\Redirect  $redirect
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit(Redirect $redirect)
     {
-        $this->setTitle($title = 'Edit Redirection');
-        $this->addBreadcrumb($title);
+        $this->authorize(RedirectsPolicy::PERMISSION_UPDATE);
 
         $statuses = RedirectStatuses::all();
+
+        $this->setTitle($title = trans('seo::redirects.titles.edit-redirection'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.redirects.edit', compact('redirect', 'statuses'));
     }
 
+    /**
+     * Update the redirect.
+     *
+     * @param  \Arcanesoft\Seo\Models\Redirect                                      $redirect
+     * @param  \Arcanesoft\Seo\Http\Requests\Admin\Redirects\UpdateRedirectRequest  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Redirect $redirect, UpdateRedirectRequest $request)
     {
-        $redirect->update(
-            $request->only(['old_url', 'new_url', 'status'])
-        );
+        $this->authorize(RedirectsPolicy::PERMISSION_UPDATE);
 
-        $message = "The redirection was updated successfully !";
-        Log::info($message, $redirect->toArray());
-        $this->notifySuccess($message, 'Redirection updated !');
+        $redirect->update($request->getValidatedInputs());
+
+        $this->transNotification('updated', [], $redirect->toArray());
 
         return redirect()->route('admin::seo.redirects.show', [$redirect]);
     }
 
+    /**
+     * Delete a redirect record.
+     *
+     * @param  \Arcanesoft\Seo\Models\Redirect  $redirect
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete(Redirect $redirect)
     {
+        $this->authorize(RedirectsPolicy::PERMISSION_DELETE);
+
         $redirect->delete();
 
-        $message = "The redirection was deleted successfully !";
-        Log::info($message, $redirect->toArray());
-        $this->notifySuccess($message, 'Redirection deleted !');
+        return $this->jsonResponseSuccess([
+            'message' => $this->transNotification('deleted', [], $redirect->toArray())
+        ]);
+    }
 
-        return json_response()->success($message);
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Notify with translation.
+     *
+     * @param  string  $action
+     * @param  array   $replace
+     * @param  array   $context
+     *
+     * @return string
+     */
+    protected function transNotification($action, array $replace = [], array $context = [])
+    {
+        $title   = trans("seo::redirects.messages.{$action}.title");
+        $message = trans("seo::redirects.messages.{$action}.message", $replace);
+
+        Log::info($message, $context);
+        $this->notifySuccess($message, $title);
+
+        return $message;
     }
 }

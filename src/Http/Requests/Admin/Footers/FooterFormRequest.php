@@ -15,6 +15,22 @@ abstract class FooterFormRequest extends FormRequest
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Get the validated inputs.
+     *
+     * @return array
+     */
+    public function getValidatedInputs()
+    {
+        return $this->only([
+            // Footer inputs
+            'name', 'localization', 'uri', 'locale', 'page',
+            // SEO Metas inputs
+            'seo_title', 'seo_description', 'seo_keywords',
+        ]);
+    }
+
     /**
      * Get the page validation rule.
      *
