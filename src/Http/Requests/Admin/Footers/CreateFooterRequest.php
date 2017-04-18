@@ -31,14 +31,14 @@ class CreateFooterRequest extends FooterFormRequest
     {
         return [
             // Footer Rules
-            'name'            => ['required'],
-            'localization'    => ['required'],
-            'uri'             => ['required', $this->getUniqueUriRule()],
+            'name'            => ['required', 'string'],
+            'localization'    => ['required', 'string'],
+            'uri'             => ['required', 'string', $this->getUniqueUriRule()],
             'locale'          => $this->getLocaleRule(),
             'page'            => $this->getPageRule(),
             // SEO Rules
-            'seo_title'       => ['required'],
-            'seo_description' => ['required'],
+            'seo_title'       => ['required', 'string'],
+            'seo_description' => ['required', 'string'],
             'seo_keywords'    => ['required', 'array', 'min:1'],
         ];
     }

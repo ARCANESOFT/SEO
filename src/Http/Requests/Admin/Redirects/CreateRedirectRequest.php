@@ -30,8 +30,8 @@ class CreateRedirectRequest extends RedirectFormRequest
     public function rules()
     {
         return [
-            'old_url' => ['required', $this->getOldUrlRule()],
-            'new_url' => ['required'],
+            'old_url' => ['required', 'string', $this->getOldUrlRule()],
+            'new_url' => ['required', 'string'],
             'status'  => $this->getStatusRule(),
         ];
     }

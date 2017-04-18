@@ -22,7 +22,7 @@ abstract class FormRequest extends BaseFormRequest
      */
     protected function getLocaleRule()
     {
-        return ['required', 'in:'.Locales::keys()->implode(',')];
+        return ['required', 'string', 'in:'.Locales::keys()->implode(',')];
     }
 
     /**

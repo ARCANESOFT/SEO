@@ -32,8 +32,8 @@ class UpdateRedirectRequest extends RedirectFormRequest
         $redirect = $this->route('seo_redirect');
 
         return [
-            'old_url' => ['required', $this->getOldUrlRule()->ignore($redirect->id)],
-            'new_url' => ['required'],
+            'old_url' => ['required', 'string', $this->getOldUrlRule()->ignore($redirect->id)],
+            'new_url' => ['required', 'string'],
             'status'  => $this->getStatusRule(),
         ];
     }

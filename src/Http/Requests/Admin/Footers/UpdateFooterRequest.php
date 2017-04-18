@@ -33,14 +33,14 @@ class UpdateFooterRequest extends FooterFormRequest
 
         return [
             // Footer Rules
-            'name'            => ['required'],
-            'localization'    => ['required'],
-            'uri'             => ['required', $this->getUniqueUriRule()->ignore($footer->id)],
+            'name'            => ['required', 'string'],
+            'localization'    => ['required', 'string'],
+            'uri'             => ['required', 'string', $this->getUniqueUriRule()->ignore($footer->id)],
             'locale'          => $this->getLocaleRule(),
             'page'            => $this->getPageRule(),
             // SEO Rules
-            'seo_title'       => ['required'],
-            'seo_description' => ['required'],
+            'seo_title'       => ['required', 'string'],
+            'seo_description' => ['required', 'string'],
             'seo_keywords'    => ['required', 'array', 'min:1'],
         ];
     }

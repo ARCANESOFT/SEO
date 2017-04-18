@@ -89,7 +89,7 @@ class RedirectsController extends Controller
     {
         $this->authorize(RedirectsPolicy::PERMISSION_CREATE);
 
-        $redirect = Redirect::createOne(
+        $redirect = Redirect::createRedirect(
             $request->getValidatedInputs()
         );
 

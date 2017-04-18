@@ -30,9 +30,9 @@ class UpdatePageRequest extends PageFormRequest
     public function rules()
     {
         return [
-            'name'    => ['required'],
+            'name'    => ['required', 'string'],
             'locale'  => $this->getLocaleRule(),
-            'content' => ['required']
+            'content' => ['required', 'string'],
         ];
     }
 }
