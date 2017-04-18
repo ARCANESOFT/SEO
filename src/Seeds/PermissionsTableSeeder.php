@@ -5,6 +5,7 @@ use Arcanesoft\Seo\Policies\FootersPolicy;
 use Arcanesoft\Seo\Policies\DashboardPolicy;
 use Arcanesoft\Seo\Policies\MetasPolicy;
 use Arcanesoft\Seo\Policies\PagesPolicy;
+use Arcanesoft\Seo\Policies\RedirectsPolicy;
 
 /**
  * Class     PermissionsTableSeeder
@@ -35,7 +36,8 @@ class PermissionsTableSeeder extends PermissionsSeeder
                     $this->getDashboardSeeds(),
                     $this->getPagesSeeds(),
                     $this->getFootersSeeds(),
-                    $this->getMetasSeeds()
+                    $this->getMetasSeeds(),
+                    $this->getRedirectsSeeds()
                 ),
             ],
         ]);
@@ -146,6 +148,42 @@ class PermissionsTableSeeder extends PermissionsSeeder
                 'name'        => 'Metas - List a metas',
                 'description' => 'Allow to list all metas.',
                 'slug'        => MetasPolicy::PERMISSION_LIST,
+            ],
+        ];
+    }
+
+    /**
+     * Get the Redirects permissions.
+     *
+     * @return array
+     */
+    private function getRedirectsSeeds()
+    {
+        return [
+            [
+                'name'        => 'Redirects - List all redirections',
+                'description' => 'Allow to list all redirections.',
+                'slug'        => RedirectsPolicy::PERMISSION_LIST,
+            ],
+            [
+                'name'        => 'Redirects - View a redirection',
+                'description' => 'Allow to display a redirection.',
+                'slug'        => RedirectsPolicy::PERMISSION_SHOW,
+            ],
+            [
+                'name'        => 'Redirects - Create a redirection',
+                'description' => 'Allow to create a redirection.',
+                'slug'        => RedirectsPolicy::PERMISSION_CREATE,
+            ],
+            [
+                'name'        => 'Redirects - Update a redirection',
+                'description' => 'Allow to update a redirection.',
+                'slug'        => RedirectsPolicy::PERMISSION_UPDATE,
+            ],
+            [
+                'name'        => 'Redirects - Delete a redirection',
+                'description' => 'Allow to delete a redirection.',
+                'slug'        => RedirectsPolicy::PERMISSION_DELETE,
             ],
         ];
     }

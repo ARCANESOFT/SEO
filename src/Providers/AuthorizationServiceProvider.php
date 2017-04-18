@@ -5,6 +5,7 @@ use Arcanesoft\Seo\Policies\DashboardPolicy;
 use Arcanesoft\Seo\Policies\FootersPolicy;
 use Arcanesoft\Seo\Policies\MetasPolicy;
 use Arcanesoft\Seo\Policies\PagesPolicy;
+use Arcanesoft\Seo\Policies\RedirectsPolicy;
 
 /**
  * Class AuthorizationServiceProvider
@@ -30,5 +31,6 @@ class AuthorizationServiceProvider extends ServiceProvider
         $this->defineMany(PagesPolicy::class,     PagesPolicy::policies());
         $this->defineMany(FootersPolicy::class,   FootersPolicy::policies());
         $this->defineMany(MetasPolicy::class,     MetasPolicy::policies());
+        $this->defineMany(RedirectsPolicy::class, RedirectsPolicy::policies());
     }
 }
