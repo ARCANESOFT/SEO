@@ -17,6 +17,7 @@ class SpammersController extends Controller
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * The spam blocker instance.
      *
@@ -35,8 +36,9 @@ class SpammersController extends Controller
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
-     * MetasController constructor.
+     * SpammersController constructor.
      *
      * @param  \Arcanedev\SpamBlocker\Contracts\SpamBlocker  $blocker
      */
@@ -47,13 +49,14 @@ class SpammersController extends Controller
         $this->blocker = $blocker;
 
         $this->setCurrentPage('seo-spammers');
-        $this->addBreadcrumbRoute('Spammers', 'admin::seo.spammers.index');
+        $this->addBreadcrumbRoute(trans('seo::spammers.titles.spammers'), 'admin::seo.spammers.index');
     }
 
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * List all the spammers.
      *
@@ -63,10 +66,10 @@ class SpammersController extends Controller
      */
     public function index(Request $request)
     {
-        $this->setTitle($title = 'List of Spammers');
-        $this->addBreadcrumb($title);
-
         $spammers = $this->paginate($this->blocker->all(), $request, $this->perPage);
+
+        $this->setTitle($title = trans('seo::spammers.titles.spammers-list'));
+        $this->addBreadcrumb($title);
 
         return $this->view('admin.spammers.index', compact('spammers'));
     }
@@ -75,6 +78,7 @@ class SpammersController extends Controller
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Paginate the collection.
      *
