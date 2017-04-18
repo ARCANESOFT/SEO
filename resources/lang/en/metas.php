@@ -32,6 +32,7 @@ return [
      |  Messages
      | -----------------------------------------------------------------
      */
+    'list-empty' => 'The list of metas is empty !',
 
     'messages' => [
         //
