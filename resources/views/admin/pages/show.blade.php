@@ -165,7 +165,7 @@
 
                 axios.delete($deletePageForm.attr('action'))
                     .then(function (response) {
-                        if (response.data.status === 'success') {
+                        if (response.data.code === 'success') {
                             $deletePageModal.modal('hide');
                             location.replace("{{ route('admin::seo.pages.index') }}");
                         }

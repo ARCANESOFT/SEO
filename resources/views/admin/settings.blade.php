@@ -1,5 +1,5 @@
 @section('header')
-    <h1>SEO <small>Settings</small></h1>
+    <h1><i class="fa fa-fw fa-cog"></i> {{ trans('seo::settings.titles.settings') }} <small></small></h1>
 @endsection
 
 @section('content')
@@ -7,7 +7,7 @@
         <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
-                    <h2 class="box-title">URL Redirector</h2>
+                    <h2 class="box-title">{{ trans('seo::settings.url-redirector.title') }}</h2>
                 </div>
                 <div class="box-body no-padding">
                     <table class="table table-condensed table-hover no-margin">

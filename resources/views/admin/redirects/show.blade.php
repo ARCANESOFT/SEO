@@ -110,7 +110,7 @@
 
                 axios.delete($deleteRedirectForm.attr('action'))
                      .then(function (response) {
-                         if (response.data.status === 'success') {
+                         if (response.data.code === 'success') {
                              $deleteRedirectModal.modal('hide');
                              location.replace("{{ route('admin::seo.redirects.index') }}");
                          }

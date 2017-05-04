@@ -148,7 +148,7 @@
 
                 axios.delete($deleteFooterForm.attr('action'))
                      .then(function (response) {
-                         if (response.data.status === 'success') {
+                         if (response.data.code === 'success') {
                              $deleteFooterModal.modal('hide');
                              location.replace("{{ route('admin::seo.footers.index') }}");
                          }
