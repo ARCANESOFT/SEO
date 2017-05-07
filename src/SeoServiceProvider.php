@@ -58,6 +58,7 @@ class SeoServiceProvider extends PackageServiceProvider
         $this->publishViews();
         $this->publishTranslations();
         $this->publishSidebarItems();
+        $this->publishAssets();
 
         $this->loadMigrations();
     }
@@ -72,5 +73,20 @@ class SeoServiceProvider extends PackageServiceProvider
         return [
             //
         ];
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Publish the assets.
+     */
+    private function publishAssets()
+    {
+        $this->publishes([
+            $this->getResourcesPath().DS.'assets'.DS => resource_path("assets/_{$this->vendor}/{$this->package}"),
+        ], 'assets');
     }
 }
