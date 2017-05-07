@@ -1,5 +1,7 @@
 <?php namespace Arcanesoft\Seo\Helpers;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class     SeoChecker
  *
@@ -12,6 +14,7 @@ class SeoChecker
      |  Constants
      | -----------------------------------------------------------------
      */
+
     const STATUS_DANGER  = 'danger';
     const STATUS_GOOD    = 'good';
     const STATUS_WARNING = 'warning';
@@ -48,10 +51,29 @@ class SeoChecker
         return self::check($description, $min, $max);
     }
 
+    /**
+     * Get the label class for the given status.
+     *
+     * @param  string  $status
+     *
+     * @return string
+     */
+    public static function label($status)
+    {
+        $statuses = [
+            SeoChecker::STATUS_DANGER  => 'danger',
+            SeoChecker::STATUS_GOOD    => 'success',
+            SeoChecker::STATUS_WARNING => 'warning',
+        ];
+
+        return Arr::get($statuses, $status, 'default');
+    }
+
     /* -----------------------------------------------------------------
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Check the value with min & max length.
      *

@@ -15,6 +15,7 @@ trait MetaPresenter
      |  Accessors
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the `title_status` attribute.
      *
@@ -22,7 +23,9 @@ trait MetaPresenter
      */
     public function getTitleStatusAttribute()
     {
-        return SeoChecker::checkTitle($this->title);
+        return SeoChecker::label(
+            SeoChecker::checkTitle($this->title)
+        );
     }
 
     /**
@@ -32,28 +35,8 @@ trait MetaPresenter
      */
     public function getDescriptionStatusAttribute()
     {
-        return SeoChecker::checkDescription($this->description);
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-    /**
-     * Get a label status by a given key.
-     *
-     * @param  string  $status
-     *
-     * @return string
-     */
-    protected function getLabelStatus($status)
-    {
-        $statuses = [
-            SeoChecker::STATUS_DANGER  => 'danger',
-            SeoChecker::STATUS_GOOD    => 'success',
-            SeoChecker::STATUS_WARNING => 'warning',
-        ];
-
-        return Arr::get($statuses, $status, 'default');
+        return SeoChecker::label(
+            SeoChecker::checkDescription($this->description)
+        );
     }
 }
