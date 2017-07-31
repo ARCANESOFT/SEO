@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Seo\Models\Presenters;
 
 use Arcanesoft\Seo\Helpers\SeoChecker;
-use Illuminate\Support\Arr;
 
 /**
  * Class     MetaPresenter
