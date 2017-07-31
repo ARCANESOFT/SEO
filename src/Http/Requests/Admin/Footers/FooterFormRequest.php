@@ -21,7 +21,7 @@ abstract class FooterFormRequest extends FormRequest
      *
      * @return array
      */
-    public function getValidatedInputs()
+    public function getValidatedData()
     {
         return $this->only([
             // Footer inputs

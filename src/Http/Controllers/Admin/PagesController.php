@@ -72,7 +72,7 @@ class PagesController extends Controller
         $this->authorize(Policies\PagesPolicy::PERMISSION_CREATE);
 
         $page = Page::createOne(
-            $request->getValidatedInputs()
+            $request->getValidatedValidated()
         );
 
         $this->transNotification('created', ['name' => $page->name], $page->toArray());
@@ -109,7 +109,7 @@ class PagesController extends Controller
         $this->authorize(Policies\PagesPolicy::PERMISSION_UPDATE);
 
         $page->updateOne(
-            $request->getValidatedInputs()
+            $request->getValidatedValidated()
         );
 
         $this->transNotification('updated', ['name' => $page->name], $page->toArray());

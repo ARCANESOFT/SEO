@@ -23,7 +23,7 @@ abstract class RedirectFormRequest extends FormRequest
      *
      * @return array
      */
-    public function getValidatedInputs()
+    public function getValidatedData()
     {
         return $this->only(['old_url', 'new_url', 'status']);
     }

@@ -38,7 +38,7 @@ class MetasController extends Controller
     {
         $this->authorize(Policies\MetasPolicy::PERMISSION_LIST);
 
-        $metas = Meta::paginate(50);
+        $metas = Meta::query()->paginate(50);
 
         $this->setTitle($title = trans('seo::metas.titles.metas-list'));
         $this->addBreadcrumb($title);

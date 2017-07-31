@@ -20,7 +20,7 @@ abstract class PageFormRequest extends FormRequest
      *
      * @return array
      */
-    public function getValidatedInputs()
+    public function getValidatedValidated()
     {
         return $this->only(['name', 'locale', 'content']);
     }

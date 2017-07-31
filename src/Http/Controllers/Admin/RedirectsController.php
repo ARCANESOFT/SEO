@@ -53,7 +53,7 @@ class RedirectsController extends Controller
     {
         $this->authorize(RedirectsPolicy::PERMISSION_LIST);
 
-        $redirects = Redirect::paginate(50);
+        $redirects = Redirect::query()->paginate(50);
 
         $this->setTitle($title = trans('seo::redirects.titles.redirections-list'));
         $this->addBreadcrumb($title);
@@ -90,7 +90,7 @@ class RedirectsController extends Controller
         $this->authorize(RedirectsPolicy::PERMISSION_CREATE);
 
         $redirect = Redirect::createRedirect(
-            $request->getValidatedInputs()
+            $request->getValidatedData()
         );
 
         $this->transNotification('created', [], $redirect->toArray());
@@ -146,7 +146,7 @@ class RedirectsController extends Controller
     {
         $this->authorize(RedirectsPolicy::PERMISSION_UPDATE);
 
-        $redirect->update($request->getValidatedInputs());
+        $redirect->update($request->getValidatedData());
 
         $this->transNotification('updated', [], $redirect->toArray());
 
