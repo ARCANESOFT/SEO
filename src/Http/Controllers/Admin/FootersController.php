@@ -75,7 +75,7 @@ class FootersController extends Controller
         $this->authorize(Policies\FootersPolicy::PERMISSION_CREATE);
 
         $footer = Footer::createOne(
-            $request->getValidatedInputs()
+            $request->getValidatedData()
         );
 
         $this->transNotification('created', ['name' => $footer->name], $footer->toArray());
@@ -115,7 +115,7 @@ class FootersController extends Controller
         $this->authorize(Policies\FootersPolicy::PERMISSION_UPDATE);
 
         $footer->updateOne(
-            $request->getValidatedInputs()
+            $request->getValidatedData()
         );
 
         $this->transNotification('updated', ['name' => $footer->name], $footer->toArray());
