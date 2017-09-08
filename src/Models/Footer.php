@@ -89,6 +89,7 @@ class Footer extends AbstractModel
      |  Relationships
      | -----------------------------------------------------------------
      */
+
     /**
      * Page's relationship.
      *
@@ -103,6 +104,7 @@ class Footer extends AbstractModel
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     public static function createOne(array $attributes)
     {
         $footer = new self([
@@ -147,13 +149,24 @@ class Footer extends AbstractModel
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
+    /**
+     * Get the show URL.
+     *
+     * @return string
+     */
     public function getShowUrl()
     {
-        return route('admin::seo.footers.show', $this);
+        return route('admin::seo.footers.show', [$this]);
     }
 
+    /**
+     * Get the edit URL.
+     *
+     * @return string
+     */
     public function getEditUrl()
     {
-        return route('admin::seo.footers.edit', $this);
+        return route('admin::seo.footers.edit', [$this]);
     }
 }

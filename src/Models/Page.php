@@ -49,6 +49,7 @@ class Page extends AbstractModel
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * Page constructor.
      *
@@ -66,10 +67,11 @@ class Page extends AbstractModel
      |  Relationships
      | -----------------------------------------------------------------
      */
+
     /**
      * Footer's relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function footers()
     {
@@ -80,6 +82,7 @@ class Page extends AbstractModel
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Create a new page.
      *
@@ -111,6 +114,7 @@ class Page extends AbstractModel
      |  Check Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Check if the page is deletable.
      *
@@ -125,12 +129,13 @@ class Page extends AbstractModel
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the select input data.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Support\Collection
      */
-    public static function getSelectInputData()
+    public static function getSelectData()
     {
         $pages = Page::all(); // TODO: Cache the data ??
 
@@ -144,7 +149,7 @@ class Page extends AbstractModel
      */
     public function getShowUrl()
     {
-        return route('admin::seo.footers.show', $this);
+        return route('admin::seo.footers.show', [$this]);
     }
 
     /**
@@ -154,6 +159,6 @@ class Page extends AbstractModel
      */
     public function getEditUrl()
     {
-        return route('admin::seo.footers.edit', $this);
+        return route('admin::seo.footers.edit', [$this]);
     }
 }

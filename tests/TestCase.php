@@ -72,8 +72,8 @@ abstract class TestCase extends BaseTestCase
     private function setUpRoutes($app)
     {
         /** @var  \Orchestra\Testbench\Http\Kernel  $httpKernel */
-        $httpKernel = $app->make('Illuminate\Contracts\Http\Kernel');
-        $httpKernel->pushMiddleware(\Arcanedev\SpamBlocker\Middleware\BlockReferralSpam::class);
+        $httpKernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
+        $httpKernel->pushMiddleware(\Arcanedev\SpamBlocker\Http\Middleware\BlockReferralSpam::class);
 
         $app['router']->get('/', function () {
             return 'Home page';
