@@ -1,6 +1,6 @@
 <?php namespace Arcanesoft\Seo\Http\Requests\Admin;
 
-use Arcanedev\Support\Bases\FormRequest as BaseFormRequest;
+use Arcanedev\Support\Http\FormRequest as BaseFormRequest;
 use Arcanesoft\Seo\Entities\Locales;
 
 /**
@@ -15,6 +15,7 @@ abstract class FormRequest extends BaseFormRequest
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the local validation rule.
      *

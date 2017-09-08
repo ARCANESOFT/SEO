@@ -1,6 +1,5 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
-use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanesoft\Seo\Entities\Locales;
 use Arcanesoft\Seo\Http\Requests\Admin\Pages\CreatePageRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Pages\UpdatePageRequest;
@@ -17,16 +16,10 @@ use Illuminate\Support\Facades\Log;
 class PagesController extends Controller
 {
     /* -----------------------------------------------------------------
-     |  Traits
-     | -----------------------------------------------------------------
-     */
-
-    use JsonResponses;
-
-    /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * PagesController constructor.
      */
@@ -135,6 +128,8 @@ class PagesController extends Controller
 
     /**
      * Notify with translation.
+     *
+     * @todo: Refactor this method to the core package ?
      *
      * @param  string  $action
      * @param  array   $replace

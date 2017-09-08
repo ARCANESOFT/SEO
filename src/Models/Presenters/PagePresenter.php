@@ -20,6 +20,7 @@ trait PagePresenter
      |  Accessors
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the `locale_name` attribute.
      *
@@ -44,6 +45,7 @@ trait PagePresenter
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Render the content.
      *
@@ -51,7 +53,7 @@ trait PagePresenter
      *
      * @return string
      */
-    public function renderContent(array $replacements)
+    protected function renderContent(array $replacements)
     {
         return $this->getContentReplacer()->replace($this->content, array_merge([
             'app_name' => config('app.name'),
@@ -67,7 +69,7 @@ trait PagePresenter
      *
      * @return \Arcanesoft\Seo\Helpers\TextReplacer
      */
-    public static function getContentReplacer()
+    protected static function getContentReplacer()
     {
         return TextReplacer::make(
             config('arcanesoft.seo.pages.replacer', [])

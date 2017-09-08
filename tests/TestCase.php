@@ -1,7 +1,6 @@
 <?php namespace Arcanesoft\Seo\Tests;
 
-use Arcanesoft\Auth\AuthServiceProvider;
-use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /**
  * Class     TestCase
@@ -11,10 +10,11 @@ use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Main Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * Get package providers.
      *
@@ -59,6 +59,11 @@ abstract class TestCase extends BaseTestCase
         $this->setUpRoutes($app);
     }
 
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
     /**
      * Setup routes.
      *
@@ -68,7 +73,7 @@ abstract class TestCase extends BaseTestCase
     {
         /** @var  \Orchestra\Testbench\Http\Kernel  $httpKernel */
         $httpKernel = $app->make('Illuminate\Contracts\Http\Kernel');
-        $httpKernel->pushMiddleware(\Arcanesoft\Seo\Http\Middleware\SeoSpamBlockerMiddleware::class);
+        $httpKernel->pushMiddleware(\Arcanedev\SpamBlocker\Middleware\BlockReferralSpam::class);
 
         $app['router']->get('/', function () {
             return 'Home page';

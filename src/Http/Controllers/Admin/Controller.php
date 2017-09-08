@@ -1,5 +1,6 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
+use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanesoft\Core\Http\Controllers\AdminController;
 use Arcanesoft\Core\Traits\Notifyable;
 
@@ -15,12 +16,15 @@ abstract class Controller extends AdminController
      |  Traits
      | -----------------------------------------------------------------
      */
-    use Notifyable;
+
+    use Notifyable,
+        JsonResponses;
 
     /* -----------------------------------------------------------------
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * The view namespace.
      *
@@ -32,6 +36,7 @@ abstract class Controller extends AdminController
      |  Constructor
      | ------------------------------------------------------------------------------------------------
      */
+
     /**
      * Instantiate the controller.
      */

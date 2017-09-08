@@ -16,6 +16,7 @@ class SettingsController extends Controller
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * SettingsController constructor.
      */

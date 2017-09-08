@@ -21,12 +21,14 @@ class Page extends AbstractModel
      |  Traits
      | -----------------------------------------------------------------
      */
+
     use Presenters\PagePresenter;
 
     /* -----------------------------------------------------------------
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * The attributes that are mass assignable.
      *

@@ -25,6 +25,7 @@ class Footer extends AbstractModel
      |  Traits
      | -----------------------------------------------------------------
      */
+
     use Seoable,
         Presenters\FooterPresenter;
 
@@ -32,6 +33,7 @@ class Footer extends AbstractModel
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /**
      * The attributes that are mass assignable.
      *
@@ -55,6 +57,7 @@ class Footer extends AbstractModel
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * Footer constructor.
      *

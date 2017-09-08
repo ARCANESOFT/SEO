@@ -38,10 +38,10 @@ abstract class FooterFormRequest extends FormRequest
      */
     protected function getPageRule()
     {
-        $existsRule = Rule::exists($this->getTablePrefix().'pages', 'id');
-
-        if ($this->has('locale'))
-            $existsRule = $existsRule->where('locale', $this->get('locale', config('app.locale')));
+        $existsRule = Rule::exists($this->getTablePrefix().'pages', 'id')->where(function ($query) {
+            if ($this->has('locale'))
+                $query->where('locale', $this->get('locale', config('app.locale')));
+        });
 
         return ['required', 'integer', $existsRule];
     }

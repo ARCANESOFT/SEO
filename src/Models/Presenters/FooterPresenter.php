@@ -20,6 +20,7 @@ trait FooterPresenter
      |  Accessors
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the `locale_name` attribute.
      *

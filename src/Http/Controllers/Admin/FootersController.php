@@ -1,6 +1,5 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
-use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanesoft\Seo\Entities\Locales;
 use Arcanesoft\Seo\Http\Requests\Admin\Footers\CreateFooterRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Footers\UpdateFooterRequest;
@@ -17,13 +16,6 @@ use Illuminate\Support\Facades\Log;
  */
 class FootersController extends Controller
 {
-    /* -----------------------------------------------------------------
-     |  Traits
-     | -----------------------------------------------------------------
-     */
-
-    use JsonResponses;
-
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -141,6 +133,8 @@ class FootersController extends Controller
 
     /**
      * Notify with translation.
+     *
+     * @todo: Refactor this method to the core package ?
      *
      * @param  string  $action
      * @param  array   $replace

@@ -24,7 +24,7 @@ class MetasRoutes extends RouteRegistrar
         $registrar = new static;
 
         $registrar->bind('seo_meta', function ($id) {
-            return Meta::findOrFail($id);
+            return Meta::query()->findOrFail($id);
         });
     }
 

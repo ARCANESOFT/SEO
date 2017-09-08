@@ -24,7 +24,7 @@ class PagesRoutes extends RouteRegistrar
         $registrar = new static;
 
         $registrar->bind('seo_page', function ($id) {
-            return Page::findOrFail($id);
+            return Page::query()->findOrFail($id);
         });
     }
 

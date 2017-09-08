@@ -1,6 +1,5 @@
 <?php namespace Arcanesoft\Seo\Http\Controllers\Admin;
 
-use Arcanedev\LaravelApiHelper\Traits\JsonResponses;
 use Arcanedev\LaravelSeo\Entities\RedirectStatuses;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\CreateRedirectRequest;
 use Arcanesoft\Seo\Http\Requests\Admin\Redirects\UpdateRedirectRequest;
@@ -16,13 +15,6 @@ use Illuminate\Support\Facades\Log;
  */
 class RedirectsController extends Controller
 {
-    /* -----------------------------------------------------------------
-     |  Traits
-     | -----------------------------------------------------------------
-     */
-
-    use JsonResponses;
-
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -178,6 +170,8 @@ class RedirectsController extends Controller
 
     /**
      * Notify with translation.
+     *
+     * @todo: Refactor this method to the core package ?
      *
      * @param  string  $action
      * @param  array   $replace

@@ -14,6 +14,7 @@ class SpammersRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Define the routes for the application.
      */

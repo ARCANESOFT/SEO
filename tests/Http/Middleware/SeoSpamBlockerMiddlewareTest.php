@@ -10,38 +10,42 @@ use Arcanesoft\Seo\Tests\TestCase;
  */
 class SeoSpamBlockerMiddlewareTest extends TestCase
 {
-    /* ------------------------------------------------------------------------------------------------
-     |  Test Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Tests
+     | -----------------------------------------------------------------
      */
+
     /** @test */
     public function it_can_accept_valid_referral()
     {
-        $this->callReferer('http://www.google.com');
+        $response = $this->callReferer('http://www.google.com');
 
-        $this->assertResponseOk();
+        $response->assertSuccessful();
     }
 
     /** @test */
     public function it_can_deny_a_spammer_referral()
     {
-        $this->callReferer("http://0n-line.tv");
+        $response = $this->callReferer("http://0n-line.tv");
 
-        $this->assertResponseStatus(401);
+        $response->assertStatus(401);
     }
 
-    /* ------------------------------------------------------------------------------------------------
-     |  Other Functions
-     | ------------------------------------------------------------------------------------------------
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
      */
+
     /**
      * @param  string  $referer
      * @param  string  $url
      * @param  string  $method
+     *
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     private function callReferer($referer, $url = '/', $method = 'GET')
     {
-        $this->call($method, $url, [], [], [], [
+        return $this->call($method, $url, [], [], [], [
             'HTTP_REFERER' => $referer,
         ]);
     }
