@@ -53,7 +53,7 @@ class FootersController extends Controller
     {
         $this->authorize(Policies\FootersPolicy::PERMISSION_CREATE);
 
-        $pages   = Page::getSelectInputData();
+        $pages   = Page::getSelectData();
         $locales = Locales::all();
 
         $this->setTitle($title = trans('seo::footers.titles.new-footer'));
@@ -93,7 +93,7 @@ class FootersController extends Controller
 
         $footer->load(['page', 'seo']);
 
-        $pages   = Page::getSelectInputData();
+        $pages   = Page::getSelectData();
         $locales = Locales::all();
 
         $this->setTitle($title = trans('seo::footers.titles.edit-footer'));
