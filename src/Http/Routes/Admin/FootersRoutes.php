@@ -24,7 +24,7 @@ class FootersRoutes extends RouteRegistrar
         $registrar = new static;
 
         $registrar->bind('seo_footer', function ($id) {
-            return Footer::findOrFail($id);
+            return Footer::query()->findOrFail($id);
         });
     }
 

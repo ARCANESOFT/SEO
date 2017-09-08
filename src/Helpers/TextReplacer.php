@@ -14,6 +14,7 @@ class TextReplacer
      |  Properties
      | -----------------------------------------------------------------
      */
+
     /** @var array */
     protected $replacements;
 
@@ -21,6 +22,7 @@ class TextReplacer
      |  Constructor
      | -----------------------------------------------------------------
      */
+
     /**
      * TextReplacer constructor.
      *
@@ -79,6 +81,7 @@ class TextReplacer
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Make the instance.
      *

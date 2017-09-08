@@ -22,7 +22,7 @@ class Locales
      */
     public static function all()
     {
-        return new Collection(trans("seo::locales"));
+        return new Collection(trans('seo::locales'));
     }
 
     /**

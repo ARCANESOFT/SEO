@@ -16,12 +16,14 @@ class FooterWidgetComposer extends ViewComposer
      |  Constants
      | -----------------------------------------------------------------
      */
+
     const VIEW = 'seo::public._composers.widgets.footer-widget';
 
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Compose the view.
      *
@@ -29,8 +31,6 @@ class FooterWidgetComposer extends ViewComposer
      */
     public function compose(View $view)
     {
-        $this->view = $view;
-
-        $this->view->with('seoFooters', Footer::all());
+        $view->with('seoFooters', Footer::all());
     }
 }

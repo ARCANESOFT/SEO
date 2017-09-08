@@ -24,7 +24,7 @@ class RedirectsRoutes extends RouteRegistrar
         $registrar = new static;
 
         $registrar->bind('seo_redirect', function ($id) {
-            return Redirect::findOrFail($id);
+            return Redirect::query()->findOrFail($id);
         });
     }
 

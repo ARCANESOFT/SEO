@@ -44,6 +44,7 @@ class RouteServiceProvider extends ServiceProvider
      |  Other Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Register the route bindings.
      */

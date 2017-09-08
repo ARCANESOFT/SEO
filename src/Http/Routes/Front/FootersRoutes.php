@@ -15,13 +15,15 @@ class FootersRoutes extends RouteRegistrar
      |  Main Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Define the routes for the application.
      */
     public function map()
     {
         $this->bind('seo_footer_uri', function ($uri) {
-            return Footer::where('uri', $uri)
+            return Footer::query()
+                ->where('uri', $uri)
                 ->where('locale', config('app.locale'))
                 ->firstOrFail();
         });

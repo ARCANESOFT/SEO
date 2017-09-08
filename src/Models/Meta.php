@@ -14,5 +14,6 @@ class Meta extends BaseMeta
      |  Traits
      | -----------------------------------------------------------------
      */
+
     use Presenters\MetaPresenter;
 }

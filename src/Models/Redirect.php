@@ -24,10 +24,8 @@ class Redirect extends BaseRedirect
      */
     public static function createRedirect(array $attributes)
     {
-        $redirect = new static($attributes);
-
-        $redirect->save();
-
-        return $redirect;
+        return tap(new static($attributes), function (self $redirect) {
+            $redirect->save();
+        });
     }
 }
