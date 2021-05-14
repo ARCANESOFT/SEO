@@ -1,46 +1,32 @@
-<?php namespace Arcanesoft\Seo\Models\Presenters;
+<?php
 
-use Arcanesoft\Seo\Entities\Locales;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Models\Presenters;
+
+use Illuminate\Support\HtmlString;
 
 /**
- * Class     FooterPresenter
+ * Trait     FooterPresenter
  *
- * @package  Arcanesoft\Seo\Models\Presenters
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
- *
- * @property  string  locale
- * @property  string  locale_name
- * @property  string  content
- *
- * @property  \Arcanesoft\Seo\Models\Page  page
  */
 trait FooterPresenter
 {
     /* -----------------------------------------------------------------
-     |  Accessors
+     |  Accessors & Mutators
      | -----------------------------------------------------------------
      */
 
     /**
-     * Get the `locale_name` attribute.
+     * Get the `content_html` attribute.
      *
-     * @return string|null
+     * @return \Illuminate\Support\HtmlString
      */
-    public function getLocaleNameAttribute()
+    public function getContentHtmlAttribute(): HtmlString
     {
-        return Locales::get($this->locale);
-    }
+        // TODO: Replace the content placeholders.
 
-    /**
-     * Get the `content` attribute.
-     *
-     * @return string
-     */
-    public function getContentAttribute()
-    {
-        return $this->page->renderContent([
-            'footer_name'         => $this->name,
-            'footer_localization' => $this->localization,
-        ]);
+        return markdown()->parse($this->page->content);
     }
 }

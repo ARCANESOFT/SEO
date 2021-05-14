@@ -1,88 +1,169 @@
-<?php namespace Arcanesoft\Seo\Policies;
+<?php
 
-use Arcanesoft\Contracts\Auth\Models\User;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Policies;
+
+use Arcanesoft\Foundation\Authorization\Models\Administrator;
+use Arcanesoft\Seo\Models\Page;
 
 /**
- * Class PagesPolicy
+ * Class     PagesPolicy
  *
- * @package  Arcanesoft\Seo\Policies
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class PagesPolicy extends AbstractPolicy
+class PagesPolicy extends Policy
 {
     /* -----------------------------------------------------------------
-     |  Constants
+     |  Properties
      | -----------------------------------------------------------------
      */
 
-    const PERMISSION_LIST   = 'seo.pages.list';
-    const PERMISSION_SHOW   = 'seo.pages.show';
-    const PERMISSION_CREATE = 'seo.pages.create';
-    const PERMISSION_UPDATE = 'seo.pages.update';
-    const PERMISSION_DELETE = 'seo.pages.delete';
+    /**
+     * Get the ability's prefix.
+     *
+     * @return string
+     */
+    protected static function prefix(): string
+    {
+        return 'admin::seo.pages.';
+    }
 
     /* -----------------------------------------------------------------
-     |  Abilities
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the policy's abilities.
+     *
+     * @return \Arcanedev\LaravelPolicies\Ability[]|iterable
+     */
+    public function abilities(): iterable
+    {
+        $this->setMetas([
+            'category' => 'Pages',
+        ]);
+
+        return [
+
+            // admin::seo.pages.index
+            $this->makeAbility('index')->setMetas([
+                'name'        => 'List all the pages',
+                'description' => 'Ability to list all the pages',
+            ]),
+
+            // admin::seo.pages.metrics
+            $this->makeAbility('metrics')->setMetas([
+                'name'        => "List all the pages' metrics",
+                'description' => "Ability to list all the pages' metrics",
+            ]),
+
+            // admin::seo.pages.create
+            $this->makeAbility('create')->setMetas([
+                'name'        => 'Create a new page',
+                'description' => 'Ability to create a new page',
+            ]),
+
+            // admin::seo.pages.show
+            $this->makeAbility('show')->setMetas([
+                'name'        => 'Show a page',
+                'description' => "Ability to show the page's details",
+            ]),
+
+            // admin::seo.pages.update
+            $this->makeAbility('update')->setMetas([
+                'name'        => 'Update a page',
+                'description' => 'Ability to update a page',
+            ]),
+
+            // admin::seo.pages.delete
+            $this->makeAbility('delete')->setMetas([
+                'name'        => 'Delete a page',
+                'description' => 'Ability to delete a page',
+            ]),
+
+        ];
+    }
+
+    /* -----------------------------------------------------------------
+     |  Policies
      | -----------------------------------------------------------------
      */
 
     /**
      * Allow to list all the pages.
      *
-     * @param  \Arcanesoft\Contracts\Auth\Models\User  $user
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
      *
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response|bool|void
      */
-    public function listPolicy(User $user)
+    public function index(Administrator $administrator)
     {
-        return $user->may(static::PERMISSION_LIST);
+        //
     }
 
     /**
-     * Allow to show a page details.
+     * Allow to list all the pages' metrics.
      *
-     * @param  \Arcanesoft\Contracts\Auth\Models\User  $user
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
      *
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response|bool|void
      */
-    public function showPolicy(User $user)
+    public function metrics(Administrator $administrator)
     {
-        return $user->may(static::PERMISSION_SHOW);
+        //
     }
 
     /**
      * Allow to create a page.
      *
-     * @param  \Arcanesoft\Contracts\Auth\Models\User  $user
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
      *
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response|bool|void
      */
-    public function createPolicy(User $user)
+    public function create(Administrator $administrator)
     {
-        return $user->may(static::PERMISSION_CREATE);
+        //
+    }
+
+    /**
+     * Allow to show a page details.
+     *
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
+     * @param  \Arcanesoft\Seo\Models\Page|mixed|null                           $page
+     *
+     * @return \Illuminate\Auth\Access\Response|bool|void
+     */
+    public function show(Administrator $administrator, Page $page = null)
+    {
+        //
     }
 
     /**
      * Allow to update a page.
      *
-     * @param  \Arcanesoft\Contracts\Auth\Models\User  $user
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
+     * @param  \Arcanesoft\Seo\Models\Page|mixed|null                           $page
      *
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response|bool|void
      */
-    public function updatePolicy(User $user)
+    public function update(Administrator $administrator, Page $page = null)
     {
-        return $user->may(static::PERMISSION_UPDATE);
+        //
     }
 
     /**
      * Allow to delete a page.
      *
-     * @param  \Arcanesoft\Contracts\Auth\Models\User  $user
+     * @param  \Arcanesoft\Foundation\Authorization\Models\Administrator|mixed  $administrator
+     * @param  \Arcanesoft\Seo\Models\Page|mixed|null                           $page
      *
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response|bool|void
      */
-    public function deletePolicy(User $user)
+    public function delete(Administrator $administrator, Page $page = null)
     {
-        return $user->may(static::PERMISSION_DELETE);
+        if ( ! is_null($page))
+            return $page->isDeletable();
     }
 }

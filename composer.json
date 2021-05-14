@@ -1,11 +1,10 @@
 {
     "name":        "arcanesoft/seo",
-    "description": "SEO Module for ARCANESOFT CMS.",
-    "keywords":    [
-        "arcanedev", "arcanesoft", "laravel", "seo"
-    ],
-    "homepage":    "https://github.com/ARCANESOFT/SEO",
-    "authors": [
+    "description": "ARCANESOFT - SEO module.",
+    "keywords":    ["arcanedev", "arcanesoft", "seo", "laravel"],
+    "license":     "MIT",
+    "type":        "project",
+    "authors":     [
         {
             "name":     "ARCANEDEV",
             "email":    "arcanedev.maroc@gmail.com",
@@ -13,19 +12,15 @@
             "role":     "Developer"
         }
     ],
-    "type":    "library",
-    "license": "MIT",
     "require": {
-        "php":                    ">=7.0",
-        "arcanedev/laravel-seo":  "~0.6.0",
-        "arcanedev/spam-blocker": "~1.4.0",
-        "arcanesoft/auth":        "~3.1.0",
-        "arcanesoft/core":        "~2.7.0"
+        "php": "^7.3|^8.0",
+        "arcanesoft/foundation": "^4.0"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.5.0",
-        "phpunit/phpcov":      "~4.0",
-        "phpunit/phpunit":     "~6.0"
+        "laravel/framework": "^8.0",
+        "mockery/mockery": "^1.4.2",
+        "orchestra/testbench-core": "^6.0",
+        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {
@@ -36,5 +31,26 @@
         "psr-4": {
             "Arcanesoft\\Seo\\Tests\\": "tests/"
         }
-    }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test:dox": "phpunit --testdox --colors=always",
+        "test:cov": "phpunit --coverage-html coverage"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Arcanesoft\\Seo\\SeoServiceProvider"
+            ]
+        },
+        "arcanesoft": {
+            "install": "Arcanesoft\\Seo\\Console\\InstallCommand",
+            "publish": "Arcanesoft\\Seo\\Console\\PublishCommand"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

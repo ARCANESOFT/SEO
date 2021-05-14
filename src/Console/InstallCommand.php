@@ -1,7 +1,11 @@
-<?php namespace Arcanesoft\Seo\Console;
+<?php
 
-use Arcanedev\Support\Bases\Command;
-use Arcanesoft\Seo\Seeds\DatabaseSeeder;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Console;
+
+use Arcanesoft\Seo\Database\DatabaseSeeder;
+use Arcanesoft\Foundation\Support\Console\InstallCommand as Command;
 
 /**
  * Class     InstallCommand
@@ -21,14 +25,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature   = 'seo:install';
+    protected $signature = 'seo:install';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @var string|null
      */
-    protected $description = 'Install the SEO module.';
+    protected $description = 'Install SEO module';
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -36,10 +40,10 @@ class InstallCommand extends Command
      */
 
     /**
-     * Execute the console command.
+     * Handle the command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $this->call('db:seed', ['--class' => DatabaseSeeder::class]);
+        $this->seed(DatabaseSeeder::class);
     }
 }

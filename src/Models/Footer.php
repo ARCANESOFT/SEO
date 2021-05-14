@@ -1,33 +1,40 @@
-<?php namespace Arcanesoft\Seo\Models;
+<?php
 
-use Arcanedev\LaravelSeo\Traits\Seoable;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Models;
+
+use Arcanesoft\Seo\Models\Presenters\FooterPresenter;
+use Arcanesoft\Seo\Seo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class     Footer
  *
- * @package  Arcanesoft\Seo\Models
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
- * @property  int             id
- * @property  int             page_id
- * @property  string          locale
- * @property  string          uri
- * @property  string          name
- * @property  string          localization
- * @property  \Carbon\Carbon  created_at
- * @property  \Carbon\Carbon  updated_at
+ * @property  int                         id
+ * @property  int                         page_id
+ * @property  int                         order
+ * @property  string                      url
+ * @property  string                      name
+ * @property  string                      placeholder
+ * @property  string                      title
+ * @property  string                      description
+ * @property  string                      keywords
+ * @property  \Illuminate\Support\Carbon  created_at
+ * @property  \Illuminate\Support\Carbon  updated_at
  *
  * @property  \Arcanesoft\Seo\Models\Page  page
  */
-class Footer extends AbstractModel
+class Footer extends Model
 {
     /* -----------------------------------------------------------------
      |  Traits
      | -----------------------------------------------------------------
      */
 
-    use Seoable,
-        Presenters\FooterPresenter;
+    use FooterPresenter;
 
     /* -----------------------------------------------------------------
      |  Properties
@@ -37,20 +44,19 @@ class Footer extends AbstractModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
-        'page_id', 'locale', 'uri', 'name', 'localization',
-    ];
+        'page_id',
+        'order',
+        'url',
+        'name',
+        'placeholder',
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id'      => 'integer',
-        'page_id' => 'integer',
+        // TODO: Use a dynamic SEO metas
+        'title',
+        'description',
+        'keywords',
     ];
 
     /* -----------------------------------------------------------------
@@ -59,30 +65,15 @@ class Footer extends AbstractModel
      */
 
     /**
-     * Footer constructor.
+     * Create a new Eloquent model instance.
      *
      * @param  array  $attributes
      */
     public function __construct(array $attributes = [])
     {
+        $this->setTable(Seo::table('footers'));
+
         parent::__construct($attributes);
-
-        $this->setConnection(config('arcanesoft.seo.database.connection'));
-        $this->setPrefix(config('arcanesoft.seo.database.prefix', 'seo_'));
-    }
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @todo: Refactor to dedicated observer
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        self::deleting(function (Footer $footer) {
-            $footer->deleteSeo();
-        });
     }
 
     /* -----------------------------------------------------------------
@@ -95,78 +86,8 @@ class Footer extends AbstractModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function page()
+    public function page(): BelongsTo
     {
-        return $this->belongsTo(Page::class);
-    }
-
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
-    public static function createOne(array $attributes)
-    {
-        $footer = new self([
-            'name'         => $attributes['name'],
-            'localization' => $attributes['localization'],
-            'uri'          => $attributes['uri'],
-            'locale'       => $attributes['locale'],
-            'page_id'      => $attributes['page'],
-        ]);
-
-        $footer->save();
-
-        $footer->createSeo([
-            'title'       => $attributes['seo_title'],
-            'description' => $attributes['seo_description'],
-            'keywords'    => $attributes['seo_keywords'],
-        ]);
-
-        return $footer;
-    }
-
-    public function updateOne(array $attributes)
-    {
-        $result = $this->update([
-            'name'         => $attributes['name'],
-            'localization' => $attributes['localization'],
-            'uri'          => $attributes['uri'],
-            'locale'       => $attributes['locale'],
-            'page_id'      => $attributes['page'],
-        ]);
-
-        $this->updateSeo([
-            'title'       => $attributes['seo_title'],
-            'description' => $attributes['seo_description'],
-            'keywords'    => $attributes['seo_keywords'],
-        ]);
-
-        return $result;
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Get the show URL.
-     *
-     * @return string
-     */
-    public function getShowUrl()
-    {
-        return route('admin::seo.footers.show', [$this]);
-    }
-
-    /**
-     * Get the edit URL.
-     *
-     * @return string
-     */
-    public function getEditUrl()
-    {
-        return route('admin::seo.footers.edit', [$this]);
+        return $this->belongsTo(Seo::model('page', Page::class));
     }
 }

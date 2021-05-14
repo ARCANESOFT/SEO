@@ -1,28 +1,35 @@
-<?php namespace Arcanesoft\Seo\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Models;
+
+use Arcanesoft\Seo\Models\Presenters\PagePresenter;
+use Arcanesoft\Seo\Seo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class     Page
  *
- * @package  Arcanesoft\Seo\Models
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
- * @property  int             id
- * @property  string          name
- * @property  string          content
- * @property  string          locale
- * @property  \Carbon\Carbon  created_at
- * @property  \Carbon\Carbon  updated_at
+ * @property  int                         id
+ * @property  string                      name
+ * @property  string                      content
+ * @property  string                      lang
+ * @property  \Illuminate\Support\Carbon  created_at
+ * @property  \Illuminate\Support\Carbon  updated_at
  *
- * @property  \Illuminate\Database\Eloquent\Collection  footers
+ * @property  \Illuminate\Database\Eloquent\Collection|\Arcanesoft\Seo\Models\Footer[]  $footers
  */
-class Page extends AbstractModel
+class Page extends Model
 {
     /* -----------------------------------------------------------------
      |  Traits
      | -----------------------------------------------------------------
      */
 
-    use Presenters\PagePresenter;
+    use PagePresenter;
 
     /* -----------------------------------------------------------------
      |  Properties
@@ -32,17 +39,12 @@ class Page extends AbstractModel
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
-    protected $fillable = ['name', 'content', 'locale'];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
+    protected $fillable = [
+        'name',
+        'content',
+        'lang',
     ];
 
     /* -----------------------------------------------------------------
@@ -51,16 +53,15 @@ class Page extends AbstractModel
      */
 
     /**
-     * Page constructor.
+     * Create a new Eloquent model instance.
      *
      * @param  array  $attributes
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        $this->setTable(Seo::table('pages'));
 
-        $this->setConnection(config('arcanesoft.seo.database.connection'));
-        $this->setPrefix(config('arcanesoft.seo.database.prefix', 'seo_'));
+        parent::__construct($attributes);
     }
 
     /* -----------------------------------------------------------------
@@ -69,96 +70,12 @@ class Page extends AbstractModel
      */
 
     /**
-     * Footer's relationship.
+     * Footers' relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function footers()
+    public function footers(): HasMany
     {
-        return $this->hasMany(Footer::class);
-    }
-
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Create a new page.
-     *
-     * @param  array  $attributes
-     *
-     * @return self
-     */
-    public static function createOne(array $attributes)
-    {
-        $page = new self($attributes);
-        $page->save();
-
-        return $page;
-    }
-
-    /**
-     * Update a page.
-     *
-     * @param  array  $attributes
-     *
-     * @return bool
-     */
-    public function updateOne(array $attributes)
-    {
-        return $this->update($attributes);
-    }
-
-    /* -----------------------------------------------------------------
-     |  Check Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Check if the page is deletable.
-     *
-     * @return bool
-     */
-    public function isDeletable()
-    {
-        return $this->footers->isEmpty();
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Get the select input data.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public static function getSelectData()
-    {
-        $pages = Page::all(); // TODO: Cache the data ??
-
-        return $pages->pluck('name', 'id')->prepend('-- Select a page --', 0);
-    }
-
-    /**
-     * Get the show url (Seoable).
-     *
-     * @return string
-     */
-    public function getShowUrl()
-    {
-        return route('admin::seo.footers.show', [$this]);
-    }
-
-    /**
-     * Get the edit url (Seoable).
-     *
-     * @return string
-     */
-    public function getEditUrl()
-    {
-        return route('admin::seo.footers.edit', [$this]);
+        return $this->hasMany(Seo::model('footer', Footer::class));
     }
 }

@@ -1,90 +1,60 @@
-<?php namespace Arcanesoft\Seo\Models\Presenters;
+<?php
 
-use Arcanesoft\Seo\Entities\Locales;
-use Arcanesoft\Seo\Helpers\TextReplacer;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Models\Presenters;
+
+use Illuminate\Support\HtmlString;
 
 /**
- * Class     PagePresenter
+ * Trait     PagePresenter
  *
- * @package  Arcanesoft\Seo\Models\Presenters
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
- * @property  string  locale
- * @property  string  locale_name
- * @property  string  content
- * @property  string  content_preview
+ * @property  \Illuminate\Support\HtmlString  content_html
+ * @property  string[]                        content_placeholders
  */
 trait PagePresenter
 {
     /* -----------------------------------------------------------------
-     |  Accessors
+     |  Accessors & Mutators
      | -----------------------------------------------------------------
      */
 
     /**
-     * Get the `locale_name` attribute.
+     * Get the `content_html` attribute.
      *
-     * @return string|null
+     * @return \Illuminate\Support\HtmlString
      */
-    public function getLocaleNameAttribute()
+    public function getContentHtmlAttribute(): HtmlString
     {
-        return Locales::get($this->locale);
+        return markdown()->parse($this->content);
     }
 
     /**
-     * Get the `content_preview` attribute.
+     * Get the `content_placeholders` attribute.
      *
-     * @return string
+     * @return array
      */
-    public function getContentPreviewAttribute()
+    public function getContentPlaceholdersAttribute(): array
     {
-        return $this->getContentReplacer()->highlight($this->content);
+        preg_match_all("/\[([^]]*)]/", $this->content, $matches);
+
+        return $matches[1];
     }
 
     /* -----------------------------------------------------------------
-     |  Other Methods
+     |  Check Methods
      | -----------------------------------------------------------------
      */
 
     /**
-     * Render the content.
+     * Check if the content has placeholders.
      *
-     * @param  array  $replacements
-     *
-     * @return string
+     * @return bool
      */
-    protected function renderContent(array $replacements)
+    public function hasContentPlaceholders(): bool
     {
-        return $this->getContentReplacer()->replace($this->content, array_merge([
-            'app_name' => config('app.name'),
-            'app_url'  => link_to(config('app.url'), config('app.name')),
-            'mobile'   => html()->tel(config('cms.company.mobile')),
-            'phone'    => html()->tel(config('cms.company.phone')),
-            'email'    => html()->mailto(config('cms.company.email')),
-        ], $replacements));
-    }
-
-    /**
-     * Get the content replacer.
-     *
-     * @return \Arcanesoft\Seo\Helpers\TextReplacer
-     */
-    protected static function getContentReplacer()
-    {
-        return TextReplacer::make(
-            config('arcanesoft.seo.pages.replacer', [])
-        );
-    }
-
-    /**
-     * Get the content replacer pattern.
-     *
-     * @return string
-     */
-    protected function getReplacerPattern()
-    {
-        $replacer = config('arcanesoft.seo.pages.replacer', []);
-
-        return empty($replacer) ? '' : '/\[('.implode('|', $replacer).')\]/';
+        return ! empty($this->getContentPlaceholdersAttribute());
     }
 }

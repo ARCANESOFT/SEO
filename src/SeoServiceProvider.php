@@ -1,11 +1,14 @@
-<?php namespace Arcanesoft\Seo;
+<?php
 
-use Arcanesoft\Core\Bases\PackageServiceProvider;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo;
+
+use Arcanesoft\Foundation\Support\Providers\PackageServiceProvider;
 
 /**
  * Class     SeoServiceProvider
  *
- * @package  Arcanesoft\Seo
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class SeoServiceProvider extends PackageServiceProvider
@@ -16,11 +19,18 @@ class SeoServiceProvider extends PackageServiceProvider
      */
 
     /**
-     * Package name.
+     * The package name.
      *
      * @var string
      */
     protected $package = 'seo';
+
+    /**
+     * Merge multiple config files into one instance (package name as root key).
+     *
+     * @var bool
+     */
+    protected $multiConfigs = true;
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -28,65 +38,35 @@ class SeoServiceProvider extends PackageServiceProvider
      */
 
     /**
-     * Register the service provider.
+     * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
-        parent::register();
-
         $this->registerConfig();
-        $this->registerSidebarItems();
-        $this->registerProviders([
-            Providers\AuthorizationServiceProvider::class,
-            Providers\PackagesServiceProvider::class,
-            Providers\RouteServiceProvider::class,
-            Providers\ViewComposerServiceProvider::class,
-        ]);
 
-        $this->registerConsoleServiceProvider(Providers\CommandServiceProvider::class);
+        $this->registerProviders([
+            Providers\AuthServiceProvider::class,
+            Providers\RouteServiceProvider::class,
+        ]);
     }
 
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(): void
     {
-        parent::boot();
+        $this->loadTranslations();
+        $this->loadViews();
 
-        // Publishes
-        $this->publishConfig();
-        $this->publishViews();
-        $this->publishTranslations();
-        $this->publishSidebarItems();
-        $this->publishAssets();
+        if ($this->app->runningInConsole()) {
+            $this->publishAssets();
+            $this->publishConfig();
+            $this->publishTranslations();
+            $this->publishViews();
 
-        $this->loadMigrations();
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            //
-        ];
-    }
-
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Publish the assets.
-     */
-    private function publishAssets()
-    {
-        $this->publishes([
-            $this->getResourcesPath().DS.'assets'.DS => resource_path("assets/_{$this->vendor}/{$this->package}"),
-        ], 'assets');
+            Seo::$runsMigrations
+                ? $this->loadMigrations()
+                : $this->publishMigrations();
+        }
     }
 }

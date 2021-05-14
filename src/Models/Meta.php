@@ -1,19 +1,15 @@
-<?php namespace Arcanesoft\Seo\Models;
+<?php
 
-use Arcanedev\LaravelSeo\Models\Meta as BaseMeta;
+declare(strict_types=1);
+
+namespace Arcanesoft\Seo\Models;
 
 /**
  * Class     Meta
  *
- * @package  Arcanesoft\Seo\Models
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class Meta extends BaseMeta
+class Meta extends Model
 {
-    /* -----------------------------------------------------------------
-     |  Traits
-     | -----------------------------------------------------------------
-     */
-
-    use Presenters\MetaPresenter;
+    //
 }

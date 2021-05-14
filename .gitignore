@@ -1,6 +1,5 @@
-/.idea/
-/_arcanedev/
 /build/
 /vendor/
 /composer.phar
 /composer.lock
+.phpunit.result.cache
