@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Http\Routes;
 
@@ -9,7 +7,6 @@ use Arcanesoft\Seo\Http\Controllers\DashboardController;
 /**
  * Class     DashboardRoutes
  *
- * @package  Arcanesoft\Seo\Http\Routes
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DashboardRoutes extends RouteRegistrar

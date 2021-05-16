@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Repositories;
 
@@ -55,8 +53,34 @@ class PagesRepository extends Repository
         return $page->save();
     }
 
+    /**
+     * @param  \Arcanesoft\Seo\Models\Page  $page
+     *
+     * @return bool|null
+     */
     public function deleteOne(Page $page)
     {
         return $page->delete();
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the page's placeholders.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function pagePlaceholders()
+    {
+        return $this->all()->transform(function (Page $page) {
+            return [
+                'key'          => $page->getKey(),
+                'name'         => $page->name,
+                'placeholders' => $page->content_placeholders,
+            ];
+        });
     }
 }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Http\Controllers;
 
@@ -48,6 +46,8 @@ class PagesController extends Controller
      */
 
     /**
+     * Display the index page.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index()
@@ -58,6 +58,8 @@ class PagesController extends Controller
     }
 
     /**
+     * Get the datatable response.
+     *
      * @param  \Arcanesoft\Seo\Http\Datatables\PagesDatatable  $datatable
      *
      * @return \Arcanesoft\Seo\Http\Datatables\PagesDatatable
@@ -70,6 +72,8 @@ class PagesController extends Controller
     }
 
     /**
+     * Display the metrics.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function metrics()
@@ -84,6 +88,8 @@ class PagesController extends Controller
     }
 
     /**
+     * Display the create form.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function create()
@@ -96,6 +102,8 @@ class PagesController extends Controller
     }
 
     /**
+     * Store the submitted form.
+     *
      * @param  \Arcanesoft\Seo\Http\Requests\Pages\CreatePageRequest  $request
      * @param  \Arcanesoft\Seo\Repositories\PagesRepository           $repo
      *
@@ -116,6 +124,8 @@ class PagesController extends Controller
     }
 
     /**
+     * Show the resource.
+     *
      * @param  \Arcanesoft\Seo\Models\Page  $page
      *
      * @return \Illuminate\Contracts\View\View

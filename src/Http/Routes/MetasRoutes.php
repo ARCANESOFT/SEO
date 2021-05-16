@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Http\Routes;
 
@@ -22,12 +20,9 @@ class MetasRoutes extends RouteRegistrar
     const ROUTE_INDEX     = 'admin::seo.metas.index';
     const ROUTE_METRICS   = 'admin::seo.metas.metrics';
     const ROUTE_DATATABLE = 'admin::seo.metas.datatable';
-    const ROUTE_CREATE    = 'admin::seo.metas.create';
-    const ROUTE_STORE     = 'admin::seo.metas.store';
     const ROUTE_SHOW      = 'admin::seo.metas.show';
     const ROUTE_EDIT      = 'admin::seo.metas.edit';
     const ROUTE_UPDATE    = 'admin::seo.metas.update';
-    const ROUTE_DELETE    = 'admin::seo.metas.delete';
 
     const WILDCARD_PAGE = 'admin_seo_meta';
 
@@ -56,14 +51,6 @@ class MetasRoutes extends RouteRegistrar
                 $this->get('metrics', [MetasController::class, 'metrics'])
                      ->name('metrics');
 
-                // admin::seo.metas.create
-                $this->get('create', [MetasController::class, 'create'])
-                     ->name('create');
-
-                // admin::seo.metas.store
-                $this->post('store', [MetasController::class, 'store'])
-                     ->name('store');
-
                 $this->prefix('{' . static::WILDCARD_PAGE . '}')->group(function (): void {
                     // admin::seo.metas.show
                     $this->get('show', [MetasController::class, 'show'])
@@ -76,11 +63,6 @@ class MetasRoutes extends RouteRegistrar
                     // admin::seo.metas.update
                     $this->put('update', [MetasController::class, 'update'])
                          ->name('update');
-
-                    // admin::seo.metas.delete
-                    $this->delete('delete', [MetasController::class, 'delete'])
-                         ->middleware(['ajax'])
-                         ->name('delete');
                 });
             });
         });

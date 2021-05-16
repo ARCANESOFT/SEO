@@ -1,9 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Models;
 
+use Arcanesoft\Foundation\Support\Traits\Deletable;
 use Arcanesoft\Seo\Models\Presenters\PagePresenter;
 use Arcanesoft\Seo\Seo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +29,7 @@ class Page extends Model
      */
 
     use PagePresenter;
+    use Deletable;
 
     /* -----------------------------------------------------------------
      |  Properties
@@ -77,5 +77,21 @@ class Page extends Model
     public function footers(): HasMany
     {
         return $this->hasMany(Seo::model('footer', Footer::class));
+    }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Check if the object is deletable.
+     *
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        // TODO: Add the deletion check
+        return true;
     }
 }

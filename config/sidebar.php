@@ -11,7 +11,7 @@ return [
         [
             'name'        => 'seo::main',
             'title'       => 'SEO',
-            'icon'        => 'fas fa-fw fa-seo',
+            'icon'        => 'fab fa-fw fa-searchengin',
             'roles'       => [],
             'permissions' => [],
             'children'    => [
@@ -21,7 +21,6 @@ return [
                     'icon'        => 'fa fa-fw fa-tachometer-alt',
                     'route'       => Arcanesoft\Seo\Http\Routes\DashboardRoutes::ROUTE_INDEX,
                     'roles'       => [
-                        'seo-author',
                         'seo-moderator',
                     ],
                     'permissions' => [
@@ -31,10 +30,9 @@ return [
                 [
                     'name'        => 'seo::main.pages',
                     'title'       => 'Pages',
-                    'icon'        => 'far fa-fw fa-newspaper',
+                    'icon'        => 'far fa-fw fa-file-alt',
                     'route'       => Arcanesoft\Seo\Http\Routes\PagesRoutes::ROUTE_INDEX,
                     'roles'       => [
-                        'seo-author',
                         'seo-moderator',
                     ],
                     'permissions' => [
@@ -44,10 +42,9 @@ return [
                 [
                     'name'        => 'seo::main.footers',
                     'title'       => 'Footers',
-                    'icon'        => 'fas fa-fw fa-footers',
+                    'icon'        => 'fas fa-fw fa-link',
                     'route'       => Arcanesoft\Seo\Http\Routes\FootersRoutes::ROUTE_INDEX,
                     'roles'       => [
-                        'seo-author',
                         'seo-moderator',
                     ],
                     'permissions' => [
@@ -57,10 +54,9 @@ return [
                 [
                     'name'        => 'seo::main.metas',
                     'title'       => 'Metas',
-                    'icon'        => 'fas fa-fw fa-footers',
+                    'icon'        => 'fas fa-fw fa-code',
                     'route'       => Arcanesoft\Seo\Http\Routes\MetasRoutes::ROUTE_INDEX,
                     'roles'       => [
-                        'seo-author',
                         'seo-moderator',
                     ],
                     'permissions' => [

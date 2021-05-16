@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Http\Transformers;
 
@@ -18,6 +18,8 @@ class PageTransformer implements Transformer
      */
 
     /**
+     * Transform the resource.
+     *
      * @param  \Arcanesoft\Seo\Models\Page|mixed  $resource
      * @param  \Illuminate\Http\Request           $request
      *

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Providers;
 
@@ -9,15 +7,14 @@ use Arcanesoft\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 /**
  * Class     AuthServiceProvider
  *
- * @package  Arcanesoft\Seo\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class AuthServiceProvider extends ServiceProvider
 {
     /* -----------------------------------------------------------------
- |  Getters
- | -----------------------------------------------------------------
- */
+     |  Getters
+     | -----------------------------------------------------------------
+     */
 
     /**
      * Get policy's classes.

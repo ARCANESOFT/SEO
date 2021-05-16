@@ -1,15 +1,15 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use Arcanesoft\Seo\Database\Migration as Migration;
 use Arcanesoft\Seo\Seo;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class     CreateSeoMetasTagsTable
+ * Class     CreateSeoMetasTable
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @see \Arcanesoft\Seo\Models\Meta
  */
 class CreateSeoMetasTable extends Migration
 {
@@ -25,7 +25,7 @@ class CreateSeoMetasTable extends Migration
     {
         parent::__construct();
 
-        $this->setTable(Seo::table('metas', 'metas'));
+        $this->setTable(Seo::table('metas', 'metas', false));
     }
 
     /* -----------------------------------------------------------------

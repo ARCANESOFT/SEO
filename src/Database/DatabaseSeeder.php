@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Database;
 
@@ -10,7 +8,6 @@ use Arcanesoft\Seo\Database\Seeders\{PermissionSeeder, RoleSeeder};
 /**
  * Class     DatabaseSeeder
  *
- * @package  Arcanesoft\Seo\Database
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class DatabaseSeeder extends Seeder

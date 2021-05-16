@@ -95,7 +95,7 @@
                     </tbody>
                 </x-arc:card-table>
                 <x-arc:card-footer class="d-flex justify-content-end">
-                    <a href="{{ route('admin::seo.pages.create', ['page' => $page]) }}"
+                    <a href="{{ route('admin::seo.footers.create', ['page' => $page]) }}"
                        class="btn btn-sm btn-primary">@lang('Add')</a>
                 </x-arc:card-footer>
             </x-arc:card>

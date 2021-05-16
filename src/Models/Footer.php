@@ -1,9 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Models;
 
+use Arcanesoft\Foundation\Support\Traits\Deletable;
+use Arcanesoft\Seo\Models\Concerns\HasMetaTags;
 use Arcanesoft\Seo\Models\Presenters\FooterPresenter;
 use Arcanesoft\Seo\Seo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,10 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property  int                         order
  * @property  string                      url
  * @property  string                      name
- * @property  string                      placeholder
- * @property  string                      title
- * @property  string                      description
- * @property  string                      keywords
+ * @property  array                       placeholders
  * @property  \Illuminate\Support\Carbon  created_at
  * @property  \Illuminate\Support\Carbon  updated_at
  *
@@ -35,6 +32,8 @@ class Footer extends Model
      */
 
     use FooterPresenter;
+    use HasMetaTags;
+    use Deletable;
 
     /* -----------------------------------------------------------------
      |  Properties
@@ -51,12 +50,18 @@ class Footer extends Model
         'order',
         'url',
         'name',
-        'placeholder',
+        'placeholders',
+    ];
 
-        // TODO: Use a dynamic SEO metas
-        'title',
-        'description',
-        'keywords',
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id'           => 'int',
+        'page_id'      => 'int',
+        'placeholders' => 'array',
     ];
 
     /* -----------------------------------------------------------------
@@ -89,5 +94,21 @@ class Footer extends Model
     public function page(): BelongsTo
     {
         return $this->belongsTo(Seo::model('page', Page::class));
+    }
+
+    /* -----------------------------------------------------------------
+     |  Check Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Check if the object is deletable.
+     *
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        // TODO: Add the deletion check
+        return true;
     }
 }

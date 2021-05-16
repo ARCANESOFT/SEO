@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arcanesoft\Seo\Models\Presenters;
 
@@ -40,7 +38,7 @@ trait PagePresenter
     {
         preg_match_all("/\[([^]]*)]/", $this->content, $matches);
 
-        return $matches[1];
+        return array_unique($matches[1]);
     }
 
     /* -----------------------------------------------------------------
@@ -56,5 +54,29 @@ trait PagePresenter
     public function hasContentPlaceholders(): bool
     {
         return ! empty($this->getContentPlaceholdersAttribute());
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Get the parsed content with the given replacers.
+     *
+     * @param  array  $placeholders
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    public function parsedContentWithReplacers(array $placeholders): HtmlString
+    {
+        $content = $this->content;
+
+        if ($this->hasContentPlaceholders()) {
+            $search = array_map(function ($str) :string { return "[{$str}]"; }, array_keys($placeholders));
+            $content = str_replace($search, array_values($placeholders), $content);
+        }
+
+        return markdown()->parse($content);
     }
 }

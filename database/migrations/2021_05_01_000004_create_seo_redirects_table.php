@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use Arcanesoft\Seo\Database\Migration as Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -9,6 +7,8 @@ use Illuminate\Database\Schema\Blueprint;
  * Class     CreateSeoRedirectsTable
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @see \Arcanesoft\Seo\Models\Redirect
  */
 class CreateSeoRedirectsTable extends Migration
 {

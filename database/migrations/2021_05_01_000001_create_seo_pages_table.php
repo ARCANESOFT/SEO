@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use Arcanesoft\Seo\Database\Migration as Migration;
 use Arcanesoft\Seo\Seo;
