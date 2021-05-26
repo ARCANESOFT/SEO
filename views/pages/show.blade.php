@@ -85,7 +85,12 @@
                     @forelse($page->footers as $footer)
                         <tr>
                             <td class="small">{{ $footer->name }}</td>
-                            <td class="text-end"></td>
+                            <td class="text-end">
+                                <a href="{{ route(Arcanesoft\Seo\Http\Routes\FootersRoutes::ROUTE_SHOW, [$footer]) }}"
+                                   title="@lang('Show')" data-bs-toggle="tooltip" class="btn btn-sm btn-light">
+                                    <i class="far fa-fw fa-eye"></i>
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>

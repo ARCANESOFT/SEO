@@ -24,9 +24,9 @@ class PagesDatatable extends Datatable
      | -----------------------------------------------------------------
      */
 
-    use HasActions;
-    use HasFilters;
-    use HasPagination;
+    use HasActions,
+        HasFilters,
+        HasPagination;
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -43,7 +43,7 @@ class PagesDatatable extends Datatable
      */
     public function handle(PagesRepository $repo, Request $request)
     {
-        $query = $repo->query();
+        $query = $repo->query()->withCount(['footers']);
 
         $this->handleSearchQuery($request, $query);
 
@@ -68,7 +68,7 @@ class PagesDatatable extends Datatable
     /**
      * Define the datatable's columns.
      *
-     * @return \Arcanesoft\Foundation\Datatable\Column[]|array
+     * @return \Arcanesoft\Foundation\Datatable\Column[]
      */
     protected function columns(): array
     {
@@ -76,6 +76,7 @@ class PagesDatatable extends Datatable
             Column::make('name', 'Name')->sortable(),
             Column::make('lang', 'Language')->sortable(),
             Column::make('created_at', 'Created at')->sortable()->align('center'),
+            Column::make('footers', 'Footers', Column::DATATYPE_BADGE_COUNT)->align('center'),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace Arcanesoft\Seo\Http\Transformers;
 
 use Arcanesoft\Foundation\Datatable\Contracts\Transformer;
+use Arcanesoft\Foundation\Datatable\DataTypes\BadgeCount;
 use Illuminate\Http\Request;
 
 /**
@@ -31,6 +32,7 @@ class PageTransformer implements Transformer
             'name'       => $resource->name,
             'lang'       => $resource->lang,
             'created_at' => $resource->created_at->format('Y-m-d H:i:s'),
+            'footers'    => (new BadgeCount)->transform($resource->footers_count),
         ];
     }
 }

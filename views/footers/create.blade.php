@@ -6,7 +6,7 @@
 
 @section('content')
     <x-arc:form action="{{ route(Arcanesoft\Seo\Http\Routes\FootersRoutes::ROUTE_STORE) }}" method="POST">
-        <div class="row">
+        <div class="row g-4">
             {{-- FOOTER --}}
             <div class="col-lg-6">
                 <x-arc:card>
@@ -41,6 +41,11 @@
                             :value='@json(old("placeholders"))'/>
                     </x-arc:card-body>
                 </x-arc:card>
+            </div>
+            {{-- METAS --}}
+            <div class="col-12">
+                <v-seo-metas
+                    :value='@json(old("metas"))'/>
             </div>
         </div>
     </x-arc:form>

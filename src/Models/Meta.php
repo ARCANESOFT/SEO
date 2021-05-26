@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property  string                      metable_type
  * @property  int                         metable_id
  * @property  array                       tags
- * @property  string                      lang
  * @property  \Illuminate\Support\Carbon  created_at
  * @property  \Illuminate\Support\Carbon  updated_at
  *
@@ -30,11 +29,19 @@ class Meta extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array
      */
     protected $fillable = [
         'tags',
-        'lang',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'tags' => 'array',
     ];
 
     /* -----------------------------------------------------------------

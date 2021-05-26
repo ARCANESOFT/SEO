@@ -47,6 +47,11 @@ class FootersRepository extends Repository
 
         return tap($this->model()->fill($attributes), function (Footer $footer) use ($attributes) : void {
             $footer->save();
+
+            if ($attributes['metas'])
+                $footer->meta()->create([
+                    'tags' => $attributes['metas'],
+                ]);
         });
     }
 
@@ -64,7 +69,12 @@ class FootersRepository extends Repository
             'page_id' => $attributes['page'], // TODO: Place this in form request
         ]));
 
-        return $footer->save();
+        if ($attributes['metas'])
+            $footer->meta->fill([
+                'tags' => $attributes['metas'],
+            ]);
+
+        return $footer->push();
     }
 
     /**

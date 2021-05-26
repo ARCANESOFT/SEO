@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
+ * @property  \Arcanesoft\Seo\Models\Meta  meta
+ *
  * @mixin  \Illuminate\Database\Eloquent\Concerns\HasRelationships
  */
 trait HasMetaTags

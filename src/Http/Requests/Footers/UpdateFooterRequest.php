@@ -3,6 +3,7 @@
 namespace Arcanesoft\Seo\Http\Requests\Footers;
 
 use Arcanesoft\Seo\Policies\FootersPolicy;
+use Arcanesoft\Seo\Rules\MetaRule;
 use Arcanesoft\Seo\Seo;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -41,6 +42,7 @@ class UpdateFooterRequest extends FormRequest
             'url'          => ['required', 'string', 'max:255'], // TODO: Add slug validation rule
             'page'         => ['required', 'integer', Rule::exists(Seo::table('pages'), 'id')],
             'placeholders' => ['nullable', 'array'],
+            'metas'        => MetaRule::make()->rules(),
         ];
     }
 }

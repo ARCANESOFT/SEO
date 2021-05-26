@@ -44,6 +44,11 @@
                     </x-arc:card-body>
                 </x-arc:card>
             </div>
+            {{-- METAS --}}
+            <div class="col-12">
+                <v-seo-metas
+                    :value='@json(old("metas", $footer->meta->tags))'/>
+            </div>
         </div>
     </x-arc:form>
 @endsection

@@ -4,8 +4,9 @@ namespace Arcanesoft\Seo\Http\Controllers;
 
 use Arcanesoft\Foundation\Support\Traits\HasNotifications;
 use Arcanesoft\Seo\Http\Datatables\FootersDatatable;
-use Arcanesoft\Seo\Http\Requests\Footers\CreateFooterRequest;
-use Arcanesoft\Seo\Http\Requests\Footers\UpdateFooterRequest;
+use Arcanesoft\Seo\Http\Requests\Footers\{
+    CreateFooterRequest,
+    UpdateFooterRequest};
 use Arcanesoft\Seo\Http\Routes\FootersRoutes;
 use Arcanesoft\Seo\Models\Footer;
 use Arcanesoft\Seo\Policies\FootersPolicy;

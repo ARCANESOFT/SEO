@@ -31,9 +31,9 @@ class Footer extends Model
      | -----------------------------------------------------------------
      */
 
-    use FooterPresenter;
-    use HasMetaTags;
-    use Deletable;
+    use FooterPresenter,
+        HasMetaTags,
+        Deletable;
 
     /* -----------------------------------------------------------------
      |  Properties
